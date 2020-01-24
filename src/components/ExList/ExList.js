@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import axios from "axios"
 import ExListDisp from "./ExListDisp"
-import './ExList.css'
-import Header from '../Header/Header'
+import "./ExList.css"
+import Header from "../Header/Header"
 
 class ExList extends Component {
   constructor() {
@@ -21,18 +21,18 @@ class ExList extends Component {
       .catch(error => this.props.history.push(`/`))
   }
 
-  toDetailedView = (id) => {
+  toDetailedView = id => {
     this.props.history.push(`/detview/${id}`)
   }
   render() {
-    let {filteredEx} = this.state
+    let { filteredEx } = this.state
     return (
-      <div className='ex-cont'>
-        <Header/>
-        <div className='header-back' ></div>
-      <ExListDisp
-        toDetailedView={this.toDetailedView}
-        filteredEx={filteredEx}
+      <div className="ex-cont">
+        <Header />
+        <div className="header-back"></div>
+        <ExListDisp
+          toDetailedView={this.toDetailedView}
+          filteredEx={filteredEx}
         />
       </div>
     )

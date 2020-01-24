@@ -12,6 +12,8 @@ module.exports = {
   },
 
   returnAll: (req, res) => {
+    console.log();
+    
     res.status(200).send(exData)
   },
 

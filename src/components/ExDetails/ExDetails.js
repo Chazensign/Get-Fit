@@ -20,9 +20,11 @@ class ExDetails extends Component {
     this.toggleEdit()
   }
   componentDidMount() {
-    axios.get(`/api/exercise/${this.props.match.params.id}`).then(res => {
+    axios.get(`/api/exercise/${this.props.match.params.id}`)
+    .then(res => {
       this.setState({ toDisplay: res.data[0] })
     })
+    .catch(err => console.log(err))
   }
   toggleEdit = () => {
     this.setState({ displayEdit: !this.state.displayEdit })
@@ -39,6 +41,7 @@ class ExDetails extends Component {
     axios
       .delete(`/api/exercise/${this.state.toDisplay.id}`)
       .then(res => this.goBack())
+      .catch(err => console.log(err))
   }
   goBack = () => {
     this.props.history.push(`/exlist/${this.state.toDisplay.MajorMuscle}`)
