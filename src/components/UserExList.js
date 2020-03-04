@@ -1,15 +1,16 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import axios from 'axios'
 
-const UserEx = () => {
+const UserExList = (props) => {
+console.log(props)
 
   const [userExercises, updateUserExercises] = useState([])
 
-useEffect(() => {
-  axios.get('/api/userex')
-})
+// useEffect(() => {
+//   axios.get(`/api/user/exercises?group=${props}&user=${}`)
+// })
 
   return ( 
     <div>
@@ -23,4 +24,4 @@ function mapStateToProps(reduxState) {
     username: reduxState.username
   }
 }
-export default connect(mapStateToProps)(UserEx)
+export default connect(mapStateToProps)(UserExList)

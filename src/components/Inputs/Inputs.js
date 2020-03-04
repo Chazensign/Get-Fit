@@ -1,6 +1,6 @@
 import React from 'react';
 import './Inputs.css'
-import Button from '../ExDetails/Button'
+import AppButton from '../ExDetails/AppButton'
 
 const Inputs = (props) => {
   let {
@@ -98,7 +98,7 @@ const Inputs = (props) => {
           placeholder="Weight"
           value={Weight || ""}
         />
-        <Button type="submit" name="Submit" onClick={props.whenClicked} />
+        <AppButton type="submit" name="Submit" onClick={props.whenClicked} />
       </form>
   )
 }

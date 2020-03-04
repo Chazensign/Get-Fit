@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import axios from 'axios'
 import {withRouter} from "react-router-dom"
 import Select from 'react-select'
-import './Landing.css'
+import styled from 'styled-components'
 
 class Landing extends Component {
   constructor() {
@@ -42,16 +42,37 @@ class Landing extends Component {
     })
     return (
       <div>
-      <main>
+      <LandingPage className='landing'>
         <Select
         className='selectBox'
           options={mappedOpts}
           onChange={this.submit}
         />
-      </main>
+      </LandingPage>
       </div>
     )
   }
 }
 
 export default withRouter(Landing)
+
+const LandingPage = styled.main`
+&.landing {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  background-image: url(https://media.istockphoto.com/photos/vintage-dumbbells-on-the-wooden-floor-picture-id524029886?k=6&m=524029886&s=612x612&w=0&h=sJYqp7glFsZmrzgFsk_iRzBUXijXLoHoEjCNvpvYaFQ=);
+  background-position-x: center;
+  background-position-y: top;
+  background-size: cover;
+  padding-top: 200px;
+  z-index: -1;
+}
+  .selectBox {
+    width: 250px;
+    height: 30px;
+  }
+  body {
+    overflow-x: hidden;
+  }
+`

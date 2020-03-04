@@ -1,10 +1,11 @@
 import React from 'react'
 import AddEx from './AddEx/AddEx'
-import Landing from './Landing/Landing'
+import Landing from './Landing'
 import ExList from './ExList/ExList'
 import ExDetails from './ExDetails/ExDetails'
 import UserProfile from './UserProfile'
 import {Switch, Route} from 'react-router-dom'
+import UserExList from './UserExList'
 
 export default (
   <Switch>
@@ -13,5 +14,6 @@ export default (
     <Route path='/detview/:id' component={ExDetails} />
     <Route path='/addex' component={AddEx} />
     <Route path='/profile' component={UserProfile} />
+    <Route path='/user/exercises/:group' component={UserExList} />
   </Switch>
 )

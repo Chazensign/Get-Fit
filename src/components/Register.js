@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import axios from 'axios'
 import { setUser } from '../ducks/reducer'
+import AppButton from './ExDetails/AppButton'
 
 const Register = (props) => {
 
@@ -52,8 +53,8 @@ axios.post('/api/register', { email, username, password })
           placeholder='Confirm Password'
         />
         <div className='button-cont'>
-        <button onClick={() => registerUser()}>Register</button>
-        <button onClick={() => props.updateShowRegister(false)}>Cancel</button>
+        <AppButton name='Register' onClick={registerUser}/>
+        <AppButton name='Cancel' onClick={() => props.updateShowRegister(false)}/>
         </div>
       </div>
     </RegisterView>

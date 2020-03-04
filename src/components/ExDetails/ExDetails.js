@@ -2,8 +2,7 @@ import React, { Component } from "react"
 import axios from "axios"
 import "./ExDetails.css"
 // import EditEx from "./EditEx"
-import Button from "./Button"
-import Header from "../Header/Header"
+import AppButton from "./AppButton"
 import Inputs from "../Inputs/Inputs";
 
 class ExDetails extends Component {
@@ -63,7 +62,6 @@ class ExDetails extends Component {
     } = this.state.toDisplay
     return this.state.displayEdit ? (
       <div className="center-it">
-        <Header />
         <div className="header-back"></div>
         <div id={id}>
           <h3 className="ex-title">{Exercise}</h3>
@@ -99,14 +97,13 @@ class ExDetails extends Component {
         </div>
         <details><img src={Example} alt="Exercise example" /></details>
         <div className="button-cont">
-          <Button name="Edit" onClick={this.toggleEdit} />
-          <Button name="Delete" onClick={this.deleteEx} />
-          <Button name="Go Back" onClick={this.goBack} />
+          <AppButton name="Edit" onClick={this.toggleEdit} />
+          <AppButton name="Delete" onClick={this.deleteEx} />
+          <AppButton name="Go Back" onClick={this.goBack} />
         </div>
       </div>
     ) : (
       <div>
-        <Header />
         <div className="header-back"></div>
         <Inputs
           whenClicked={this.submitChange}

@@ -4,6 +4,7 @@ import axios from 'axios'
 import { setUser } from '../ducks/reducer'
 import { connect } from 'react-redux'
 import { useState } from 'react'
+import AppButton from './ExDetails/AppButton'
 
 const Login = (props) => {
 
@@ -43,8 +44,11 @@ const userLogin = () => {
           To Register Click Here
         </div>
         <div className='button-cont'>
-          <button onClick={() => userLogin()}>Submit</button>
-          <button onClick={() => props.updateShowLogin()}>Cancel</button>
+          <AppButton name='Submit' onClick={userLogin} />
+          <AppButton
+            name='Cancel'
+            onClick={() => props.updateShowLogin()}
+          />
         </div>
       </div>
     </LoginModal>
