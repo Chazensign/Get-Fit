@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import Header from '../Header/Header'
 import Inputs from '../Inputs/Inputs';
 
 class AddEx extends Component {
@@ -37,8 +36,6 @@ render() {
   
     return (
       <div className="add-box">
-        <Header />
-        <div className="header-back"></div>
         <Inputs
           whenClicked={this.addExIn}
           exercise={this.state}

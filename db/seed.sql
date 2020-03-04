@@ -1,17 +1,17 @@
     CREATE TABLE exercises(
-   id            SERIAL PRIMARY KEY
+   ex_id          SERIAL PRIMARY KEY
    ,Exercise      VARCHAR(30)
    ,Equipment     VARCHAR(30)
    ,ExerciseType  VARCHAR(30)
    ,MajorMuscle   VARCHAR(30)
    ,MinorMuscle   VARCHAR(30)
-   ,Example       VARCHAR(30)
-   ,Notes         VARCHAR(30)
-   ,Modifications VARCHAR(30)
+   ,Example       VARCHAR
+   ,Notes         VARCHAR
+   ,Modifications VARCHAR
    );
 
 
- INSERT INTO exercise(id,Exercise,Equipment,ExerciseType,MajorMuscle,MinorMuscle,Example,Notes,Modifications) 
+ INSERT INTO exercises(Exercise,Equipment,ExerciseType,MajorMuscle,MinorMuscle,Example,Notes,Modifications) 
  VALUES ('Anti-Rotation','Landmine','Weight','Core','Oblique','https: //dl.airtable.com/Q5yXXob9QM6feizhmuqD_06.gif','Keep your core tight and shoulders far from your ears.','Easier: No Weight on the Bar')
  ,('Bicycle Crunch','Body Weight','Weight','Core','','https: //dl.airtable.com/Y0JUbM2YTfe8uRz0jb5w_200.gif','The lower the "straight" leg is to the ground the more challenging this exercise is.','Easier: Move Slower, Legs higher in the air
  Harder: Keep shoulder blades off the ground entire time')
@@ -52,4 +52,10 @@
  ,('Push-Up','Flat Surface','Body Weight','Pectoral','Tricep','https: //thumbs.gfycat.com/GlossySkinnyDuckbillcat-small.gif','Keep your core, legs and butt tight, don''t curve your body up or down.','If you experiance shoulder pain, move your elbows in closer to your sides.')
  ,('Tricep KickBack','Band, dumbell, cable pully','Body Weight','Tricep','','https: //yurielkaim.com/wp-content/uploads/2016/11/Tricep-Kickbacks.gif','Keep your upper arm parallel to the ground and move slower.',''); 
 
+   create table users(
+     user_id serial primary key,
+     password VARCHAR(100),
+     username VARCHAR(30),
+     email VARCHAR(50)
+   );
    

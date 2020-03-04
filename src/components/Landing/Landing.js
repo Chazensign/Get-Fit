@@ -3,7 +3,6 @@ import axios from 'axios'
 import {withRouter} from "react-router-dom"
 import Select from 'react-select'
 import './Landing.css'
-import Header from '../Header/Header'
 
 class Landing extends Component {
   constructor() {
@@ -43,7 +42,6 @@ class Landing extends Component {
     })
     return (
       <div>
-      <Header/>
       <main>
         <Select
         className='selectBox'

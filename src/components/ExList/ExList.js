@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import axios from "axios"
 import ExListDisp from "./ExListDisp"
 import "./ExList.css"
-import Header from "../Header/Header"
+import { Link } from 'react-router-dom'
 
 class ExList extends Component {
   constructor() {
@@ -27,9 +27,11 @@ class ExList extends Component {
   render() {
     let { filteredEx } = this.state
     return (
-      <div className="ex-cont">
-        <Header />
-        <div className="header-back"></div>
+      <div className='ex-cont'>
+        <div className='header-back'></div>
+        <Link className='nav-link' to='/addex'>
+          Add Exercise
+        </Link>
         <ExListDisp
           toDetailedView={this.toDetailedView}
           filteredEx={filteredEx}

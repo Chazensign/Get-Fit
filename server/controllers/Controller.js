@@ -1,5 +1,4 @@
 let exData = require('../ExData.json')
-let id = 38
 
 module.exports = {
   getExByCat: (req, res) => {
@@ -12,8 +11,6 @@ module.exports = {
   },
 
   returnAll: (req, res) => {
-    console.log();
-    
     res.status(200).send(exData)
   },
 
@@ -30,22 +27,17 @@ module.exports = {
 
   addEx: (req, res) => {
     let {Exercise, Equipment, ExerciseType, MajorMuscle, MinorMuscle, Example, Notes, Modifications, Weight, Sets, Reps} = req.body
-    let newEx = {
-      id: id.toString(),
-      Exercise: Exercise,
-      Equipment: Equipment,
-      ExerciseType: ExerciseType,
-      MajorMuscle: MajorMuscle,
-      MinorMuscle: MinorMuscle,
-      Example: Example,
-      Notes: Notes,
-      Modifications: Modifications,
-      Weight: Weight,
-      Reps: Reps,
-      Sets: Sets
-  }
-  id++
-  exData.push(newEx)
+  const db = req.app.get('db')
+  db.add_exercise(
+    Exercise,
+    Equipment,
+    ExerciseType,
+    MajorMuscle,
+    MinorMuscle,
+    Example,
+    Notes,
+    Modifications
+  )
   res.sendStatus(200)
   },
   editEx: (req, res) => {
