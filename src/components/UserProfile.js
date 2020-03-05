@@ -66,7 +66,9 @@ class UserProfile extends Component {
         <article>
           <div className='nutrition-button'>
             <h2>My Nutrition</h2>
-            <AppButton name='Add Food' />
+            <Link to='/user/addfood'>
+              <AppButton name='Add Food' />
+            </Link>
           </div>
           <div className='graph-cont'>Graph</div>
           <details>
