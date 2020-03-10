@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import axios from 'axios'
+// import axios from 'axios'
 
 const UserExList = (props) => {
 console.log(props)
 
-  const [userExercises, updateUserExercises] = useState([])
+  // const [userExercises, updateUserExercises] = useState([])
 
 // useEffect(() => {
 //   axios.get(`/api/user/exercises?group=${props}&user=${}`)
 // })
 
   return ( 
-    <div>
+    <UserList>
 
-    </div>
+    </UserList>
    );
 }
 function mapStateToProps(reduxState) {
@@ -25,3 +25,7 @@ function mapStateToProps(reduxState) {
   }
 }
 export default connect(mapStateToProps)(UserExList)
+
+const UserList = styled.main`
+width: 100%
+`
