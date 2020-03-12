@@ -1,20 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-// import axios from 'axios'
+import axios from 'axios'
+import ExListDisp from './ExList/ExListDisp'
 
 const UserExList = (props) => {
-console.log(props)
 
-  // const [userExercises, updateUserExercises] = useState([])
+  const [userExercises, updateUserExercises] = useState([])
+  const { group } = props.match.params
 
-// useEffect(() => {
-//   axios.get(`/api/user/exercises?group=${props}&user=${}`)
-// })
+useEffect(() => {
+  axios
+    .get(
+      `/api/user/exercises?group=${group}&user=${props.userId}`
+    )
+    .then(res => {
+      updateUserExercises(res.data)
+    })
+    .catch(err => console.log(err)
+    )
+}, [group, props.userId])
 
   return ( 
     <UserList>
-
+      <ExListDisp filteredEx={userExercises} userId={props.userId} />
     </UserList>
    );
 }
@@ -27,5 +36,6 @@ function mapStateToProps(reduxState) {
 export default connect(mapStateToProps)(UserExList)
 
 const UserList = styled.main`
-width: 100%
+padding-top: 60px;
+width: 100%;
 `

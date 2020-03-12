@@ -1,24 +1,28 @@
-import React, {Component} from 'react';
+import React from 'react'
 import { Link } from "react-router-dom"
 import './ExList.css'
 
 
-class ExListDisp extends Component {
-
-  render() { 
-  let {filteredEx} = this.props
+function ExListDisp (props) { 
+  let {filteredEx, userId} = props
   return ( 
     <ol>
     {filteredEx.map(ex => {
       return (
-        <Link key={ex.id} to={`/detview/${ex.id}`}>
-          <li className='link-list'>{ex.Exercise}</li>
+        <Link 
+        key={ex.id} 
+        to={{
+    pathname: userId ? `/user/detview` : `/detview/${ex.ex_id}`,
+    state: { exercise: ex }
+  }}
+    >
+        {/* to={userId ? `/user/detview?ex_id=${ex.ex_id}&user_id=${userId}` : `/detview/${ex.ex_id}`}> */}
+          <li className='link-list'>{ex.exercise}</li>
         </Link>
       )
     })}
     </ol>
    )
-  }
 }
  
-export default ExListDisp;
+export default ExListDisp

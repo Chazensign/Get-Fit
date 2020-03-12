@@ -6,8 +6,8 @@ import AppButton from "./AppButton"
 import Inputs from "../Inputs/Inputs";
 
 class ExDetails extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       toDisplay: {},
       displayEdit: true
@@ -19,11 +19,14 @@ class ExDetails extends Component {
     this.toggleEdit()
   }
   componentDidMount() {
-    axios.get(`/api/exercise/${this.props.match.params.id}`)
-    .then(res => {
-      this.setState({ toDisplay: res.data[0] })
-    })
-    .catch(err => console.log(err))
+    if (!this.props.location.state.exercise) {
+      axios
+        .get(`/api/exercise/${this.props.match.params.id}`)
+        .then(res => {
+          this.setState({ toDisplay: res.data[0] })
+        })
+        .catch(err => console.log(err))
+      }
   }
   toggleEdit = () => {
     this.setState({ displayEdit: !this.state.displayEdit })
@@ -47,55 +50,58 @@ class ExDetails extends Component {
   }
   render() {
     const {
-      id,
-      Exercise,
-      Equipment,
-      ExersizeType,
-      MajorMuscle,
-      MinorMuscle,
-      Example,
-      Notes,
-      Modifications,
-      Reps,
-      Sets,
-      Weight
-    } = this.state.toDisplay
+      ex_id,
+      exercise,
+      equipment,
+      exercisetype,
+      majormuscle,
+      minormuscle,
+      example,
+      notes,
+      modifications,
+      reps,
+      sets,
+      time,
+      weight
+    } = this.props.location.state.exercise ? this.props.location.state.exercise : this.state.toDisplay
+    console.log(this.props.location.state)
+    
     return this.state.displayEdit ? (
       <div className="center-it">
         <div className="header-back"></div>
-        <div id={id}>
-          <h3 className="ex-title">{Exercise}</h3>
+        <div id={ex_id}>
+          <h3 className="ex-title">{exercise}</h3>
           <dl>
             <p>
-              Equipment: <span>{Equipment}</span>
+              Equipment: <span>{equipment}</span>
             </p>
             <p>
-              Exersize Type: <span>{ExersizeType}</span>
+              Exersize Type: <span>{exercisetype}</span>
             </p>
             <p>
-              Major Muscle: <span>{MajorMuscle}</span>
+              Major Muscle: <span>{majormuscle}</span>
             </p>
             <p>
-              Minor Muscle: <span>{MinorMuscle}</span>
+              Minor Muscle: <span>{minormuscle}</span>
             </p>
             <p>
-              Notes: <span>{Notes}</span>
+              Notes: <span>{notes}</span>
             </p>
             <p>
-              Modifications: <span>{Modifications}</span>
+              Modifications: <span>{modifications}</span>
             </p>
             <p>
-              Reps: <span>{Reps}</span>
+              Reps: <span>{reps}</span>
             </p>
             <p>
-              Sets: <span>{Sets}</span>
+              Sets: <span>{sets}</span>
             </p>
             <p>
-              Weight: <span>{Weight}</span>
+              Weight: <span>{weight}</span>
             </p>
           </dl>
         </div>
-        <details><img src={Example} alt="Exercise example" /></details>
+        <details><img src={example} alt="Exercise example" /></details>
         <div className="button-cont">
           <AppButton name="Edit" onClick={this.toggleEdit} />
           <AppButton name="Delete" onClick={this.deleteEx} />

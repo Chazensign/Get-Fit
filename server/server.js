@@ -4,6 +4,7 @@ const express = require('express')
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
 const ctrl = require('./controllers/Controller')
 const userCtrl = require('./controllers/UserController')
+const DBCtrl = require('./controllers/DBController')
 const massive = require('massive')
 const session = require('express-session')
 
@@ -27,6 +28,7 @@ app.put('/api/exercise/:id', ctrl.editEx)
 app.delete('/api/exercise/:id', ctrl.deleteEx)
 app.post('/api/register', userCtrl.register)
 app.post('/api/user', userCtrl.userLogin)
+app.get('/api/user/exercises?', DBCtrl.getUserExercises)
 
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)

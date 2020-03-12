@@ -14,6 +14,7 @@ export default (
     <Route exact path='/' component={Landing} />
     <Route path='/exlist/:muscle' component={ExList} />
     <Route path='/detview/:id' component={ExDetails} />
+    <Route path='/user/detview' component={ExDetails} />
     <Route path='/addex' component={AddEx} />
     <Route path='/profile' component={UserProfile} />
     <Route path='/user/exercises/:group' component={UserExList} />

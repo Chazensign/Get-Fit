@@ -24,37 +24,37 @@ class UserProfile extends Component {
           <h2>My Exercises</h2>
           <nav>
             <ul>
-              <Link to='/user/exercises/chest'>
+              <Link to='/user/exercises/Chest'>
                 <div className='group-cont'>
                   <img className='chest' src={chest} alt='chest' />
                   <li>Chest</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/back'>
+              <Link to='/user/exercises/Back'>
                 <div className='group-cont'>
                   <img className='back' src={back} alt='back' />
                   <li>Back</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/shoulders'>
+              <Link to='/user/exercises/Shoulders'>
                 <div className='group-cont'>
                   <img className='shoulders' src={shoulders} alt='shoulders' />
                   <li>Shoulders</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/arms'>
+              <Link to='/user/exercises/Arms'>
                 <div className='group-cont'>
                   <img className='arm' src={arm} alt='arm' />
                   <li>Arms</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/legs'>
+              <Link to='/user/exercises/Legs'>
                 <div className='group-cont'>
                   <img className='leg' src={leg} alt='leg' />
                   <li>Legs</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/core'>
+              <Link to='/user/exercises/Core'>
                 <div className='group-cont'>
                   <img className='core' src={core} alt='core' />
                   <li>Core</li>
