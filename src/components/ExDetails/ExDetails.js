@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import axios from "axios"
 import "./ExDetails.css"
+import { connect } from 'react-redux'
 // import EditEx from "./EditEx"
 import AppButton from "./AppButton"
 import Inputs from "../Inputs/Inputs";
@@ -8,10 +9,25 @@ import Inputs from "../Inputs/Inputs";
 class ExDetails extends Component {
   constructor(props) {
     super(props)
+    const {
+      notes,
+      modifications,
+      reps,
+      sets,
+      time,
+      weight
+    } = this.props.location.state.exercise
     this.state = {
       toDisplay: {},
-      displayEdit: true
-      
+      displayEdit: true,
+      userData: {
+        notes,
+        modifications,
+        reps,
+        sets,
+        time,
+        weight
+      }
     }
   }
   submitChange = () => {
@@ -31,12 +47,9 @@ class ExDetails extends Component {
   toggleEdit = () => {
     this.setState({ displayEdit: !this.state.displayEdit })
   }
-  handleChange = e => {
+  handleChange = trg => {
     this.setState({
-      toDisplay: {
-        ...this.state.toDisplay,
-        [e.target.name]: e.target.value
-      }
+        userData: {...this.state.userData, [trg.name]: trg.value}
     })
   }
   deleteEx = () => {
@@ -48,7 +61,9 @@ class ExDetails extends Component {
   goBack = () => {
     this.props.history.push(`/exlist/${this.state.toDisplay.MajorMuscle}`)
   }
+  
   render() {
+
     const {
       ex_id,
       exercise,
@@ -64,13 +79,12 @@ class ExDetails extends Component {
       time,
       weight
     } = this.props.location.state.exercise ? this.props.location.state.exercise : this.state.toDisplay
-    console.log(this.props.location.state)
     
     return this.state.displayEdit ? (
-      <div className="center-it">
-        <div className="header-back"></div>
+      <div className='center-it'>
+        <div className='header-back'></div>
         <div id={ex_id}>
-          <h3 className="ex-title">{exercise}</h3>
+          <h3 className='ex-title'>{exercise}</h3>
           <dl>
             <p>
               Equipment: <span>{equipment}</span>
@@ -101,25 +115,36 @@ class ExDetails extends Component {
             </p>
           </dl>
         </div>
-        <details><img src={example} alt="Exercise example" /></details>
-        <div className="button-cont">
-          <AppButton name="Edit" onClick={this.toggleEdit} />
-          <AppButton name="Delete" onClick={this.deleteEx} />
-          <AppButton name="Go Back" onClick={this.goBack} />
+        <details>
+          <img src={example} alt='Exercise example' />
+        </details>
+        <div className='button-cont'>
+          {this.props.userId && <> 
+          <AppButton name='Edit' onClick={this.toggleEdit} />
+          <AppButton name='Delete' onClick={this.deleteEx} />
+          </>}
+          <AppButton name='Go Back' onClick={this.goBack} />
         </div>
       </div>
     ) : (
       <div>
-        <div className="header-back"></div>
+        <div className='header-back'></div>
         <Inputs
-          whenClicked={this.submitChange}
+          toggleEdit={this.toggleEdit}
+          submitChange={this.submitChange}
           handleChange={this.handleChange}
-          exercise={this.state.toDisplay}
-        >
-        </Inputs>
+          userData={this.state.userData}
+          />
       </div>
     )
   }
 }
 
-export default ExDetails
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username
+  }
+}
+export default connect(mapStateToProps)(ExDetails)
+

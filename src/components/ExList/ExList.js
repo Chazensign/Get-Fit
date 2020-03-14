@@ -12,30 +12,27 @@ class ExList extends Component {
     }
   }
 
-  componentDidMount() {
-    axios
-      .get(`/api/exercise/category?muscle=${this.props.match.params.muscle}`)
-      .then(res => {
-        this.setState({ filteredEx: res.data })
-      })
-      .catch(error => this.props.history.push(`/`))
-  }
+  // componentDidMount() {
+  //   axios
+  //     .get(`/api/exercise/category?muscle=${this.props.match.params.muscle}`)
+  //     .then(res => {
+  //       this.setState({ filteredEx: res.data })
+  //     })
+  //     .catch(error => this.props.history.push(`/`))
+  // }
 
-  toDetailedView = id => {
-    this.props.history.push(`/detview/${id}`)
-  }
+  // toDetailedView = id => {
+  //   this.props.history.push(`/detview/${id}`)
+  // }
   render() {
-    let { filteredEx } = this.state
+    // let { filteredEx } = this.state
     return (
       <div className='ex-cont'>
         <div className='header-back'></div>
         <Link className='nav-link' to='/addex'>
           Add Exercise
         </Link>
-        <ExListDisp
-          toDetailedView={this.toDetailedView}
-          filteredEx={filteredEx}
-        />
+        
       </div>
     )
   }

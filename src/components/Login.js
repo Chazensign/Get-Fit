@@ -15,9 +15,9 @@ const userLogin = () => {
   axios.post('/api/user', { email, password })
   .then(res => {
     props.setUser(res.data)
-    props.updateShowLogin()
     updateEmail('')
     updatePassword('')
+    props.updateShowLogin()
   })
   .catch(err => alert(err.request.responseText))
 }

@@ -10,8 +10,14 @@ module.exports = {
     }
   },
 
-  returnAll: (req, res) => {
-    res.status(200).send(exData)
+  returnAll: async (req, res) => {
+    const db = await req.app.get('db')
+    const exercises = await db.get_all_exercises()
+    if (exercises[0]) {
+      res.status(200).send(exercises)
+    }else {
+      res.sendStatus(500)
+    }
   },
 
   deleteEx: (req, res) => {

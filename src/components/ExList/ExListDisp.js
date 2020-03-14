@@ -9,15 +9,16 @@ function ExListDisp (props) {
     <ol>
     {filteredEx.map(ex => {
       return (
-        <Link 
-        key={ex.id} 
-        to={{
-    pathname: userId ? `/user/detview` : `/detview/${ex.ex_id}`,
-    state: { exercise: ex }
-  }}
-    >
-        {/* to={userId ? `/user/detview?ex_id=${ex.ex_id}&user_id=${userId}` : `/detview/${ex.ex_id}`}> */}
-          <li className='link-list'>{ex.exercise}</li>
+        <Link
+          key={ex.ex_id}
+          to={{
+            pathname: userId ? `/user/detview` : `/detview/${ex.ex_id}`,
+            state: { exercise: ex }
+          }}>
+          <li className='link-list'>
+            {/* to={userId ? `/user/detview?ex_id=${ex.ex_id}&user_id=${userId}` : `/detview/${ex.ex_id}`}> */}
+            {ex.exercise}
+          </li>
         </Link>
       )
     })}

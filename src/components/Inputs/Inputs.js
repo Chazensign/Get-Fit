@@ -3,103 +3,106 @@ import './Inputs.css'
 import AppButton from '../ExDetails/AppButton'
 
 const Inputs = (props) => {
+
   let {
-    Exercise,
-    Equipment,
-    ExerciseType,
-    MajorMuscle,
-    MinorMuscle,
-    Example,
-    Notes,
-    Modifications,
-    Reps,
-    Sets,
-    Weight
-  } = props.exercise 
+    notes,
+    modifications,
+    reps,
+    sets,
+    weight,
+    time
+  } = props.userData
   return (
-    
-      <form className="edit-box">
-        <input
+    <form className='edit-box'>
+      {/* <input
           required
-          name="Exercise"
+          name="exercise"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Exercise Name"
-          value={Exercise || ""}
+          value={exercise || ""}
         />
         <input
-          name="Equipment"
+          name="equipment"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Necessary Equipment"
-          value={Equipment || ""}
+          value={equipment || ""}
         />
         <input
-          name="ExerciseType"
+          name="exercisetype"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Type of Exercise"
-          value={ExerciseType || ""}
+          value={exercisetype || ""}
         />
         <input
           required
-          name="MajorMuscle"
+          name="majormuscle"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Main Muscle Worked"
-          value={MajorMuscle || ""}
+          value={majormuscle || ""}
         />
         <input
-          name="MinorMuscle"
+          name="minormuscle"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Secondary Muscle Worked"
-          value={MinorMuscle || ""}
+          value={minormuscle || ""}
         />
         <input
-          name="Example"
+          name="example"
           type="text"
           onChange={e => props.handleChange(e)}
           placeholder="Image/gif URL"
-          value={Example || ""}
-        />
-        <input
-          name="Notes"
-          type="text"
-          onChange={e => props.handleChange(e)}
-          placeholder="Add Notes"
-          defaultValue={Notes || ""}
-        />
-        <input
-          name="Modifications"
-          type="text"
-          onChange={e => props.handleChange(e)}
-          placeholder="Add Modifications"
-          value={Modifications || ""}
-        />
-        <input
-          name="Reps"
-          type="text"
-          onChange={e => props.handleChange(e)}
-          placeholder="Reps"
-          value={Reps || ""}
-        />
-        <input
-          name="Sets"
-          type="text"
-          onChange={e => props.handleChange(e)}
-          placeholder="Sets"
-          value={Sets || ""}
-        />
-        <input
-          name="Weight"
-          type="text"
-          onChange={e => props.handleChange(e)}
-          placeholder="Weight"
-          value={Weight || ""}
-        />
-        <AppButton type="submit" name="Submit" onClick={props.whenClicked} />
-      </form>
+          value={example || ""}
+        /> */}
+      <input
+        name='notes'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Add Notes'
+        defaultValue={notes || ''}
+      />
+      <input
+        name='modifications'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Add Modifications'
+        value={modifications || ''}
+      />
+      <input
+        name='reps'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Reps'
+        value={reps || ''}
+      />
+      <input
+        name='sets'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Sets'
+        value={sets || ''}
+      />
+      <input
+        name='weight'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Weight'
+        value={weight || ''}
+      />
+      <input
+        name='time'
+        type='text'
+        onChange={e => props.handleChange(e.target)}
+        placeholder='Time'
+        value={time || ''}
+      />
+      <AppButton type='submit' name='Submit' onClick={props.submitChange} />
+      <AppButton name='Cancel' onClick={props.toggleEdit} />
+    </form>
   )
 }
  

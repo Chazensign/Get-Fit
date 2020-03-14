@@ -3,6 +3,8 @@ import axios from 'axios'
 import {withRouter} from "react-router-dom"
 import Select from 'react-select'
 import styled from 'styled-components'
+// import ExList from "./ExList/ExList"
+import ExListDisp from './ExList/ExListDisp'
 
 class Landing extends Component {
   constructor() {
@@ -10,45 +12,57 @@ class Landing extends Component {
     this.state = {
       exercises: [],
       filterBy: "",
-      toList: []
+      toList: [],
+      muscle: '',
+      selected: false
     }
   }
   componentDidMount() {
     axios
     .get('/api/all').then(res => {
+      console.log(res.data);
+      
       this.setState({
         exercises: res.data
-        }, () => this.exToDisp())
+        })
       })
   }
-  exToDisp = () => {
-    let tempArr = this.state.exercises.map(ex => ex.MajorMuscle)
-     let tempArr2 = tempArr.filter(
-      (ex, i) => (tempArr.indexOf(ex) === i))
-     this.setState({ toList : tempArr2 })
-  }
+  // exToDisp = () => {
+  //   let tempArr = 
+  //    let tempArr2 = tempArr.filter(
+  //     (ex, i) => (tempArr.indexOf(ex) === i))
+  //    this.setState({ toList : tempArr2 })
+  // }
   
   handleChange = (input) => {
     this.setState({ filterBy: input.value });
   }
-  submit = (input) => {
-    this.props.history.push(`/exlist/${input.value}`)
+  submit = (selected) => {
+    // this.props.history.push(`/exlist/${input.value}`)
+    this.setState({ muscle: selected, showExercises: true });
   }
 
   render() {
-    const {toList} = this.state
-    const mappedOpts = toList.map(ex => {
-      return { value: ex , label: ex  }
+    const { exercises, muscle, selected } = this.state
+    const mappedOpts = exercises.filter((ex, i) => (exercises.indexOf(ex) === i)).map(ex => {
+      return { value: ex.majormuscle , label: ex.majormuscle  }
     })
     return (
       <div>
-      <LandingPage className='landing'>
+        {selected ? 
+        <ExListDisp
+          toDetailedView={this.toDetailedView}
+          filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
+          /> :
+      <LandingPage >
         <Select
         className='selectBox'
           options={mappedOpts}
           onChange={this.submit}
-        />
-      </LandingPage>
+          />
+      </LandingPage>  
+        // <ExList exercises={exercises.filter(ex => ex.majormuscle === muscle)}/>
+        }
       </div>
     )
   }
@@ -57,7 +71,6 @@ class Landing extends Component {
 export default withRouter(Landing)
 
 const LandingPage = styled.main`
-&.landing {
   display: flex;
   justify-content: center;
   height: 100vh;
@@ -67,7 +80,7 @@ const LandingPage = styled.main`
   background-size: cover;
   padding-top: 200px;
   z-index: -1;
-}
+
   .selectBox {
     width: 250px;
     height: 30px;
