@@ -3,16 +3,13 @@ import axios from 'axios'
 import {withRouter} from "react-router-dom"
 import Select from 'react-select'
 import styled from 'styled-components'
-// import ExList from "./ExList/ExList"
-import ExListDisp from './ExList/ExListDisp'
+import ExListDisp from './ExListDisp'
 
 class Landing extends Component {
   constructor() {
     super()
     this.state = {
       exercises: [],
-      filterBy: "",
-      toList: [],
       muscle: '',
       selected: false
     }
@@ -20,33 +17,27 @@ class Landing extends Component {
   componentDidMount() {
     axios
     .get('/api/all').then(res => {
-      console.log(res.data);
-      
       this.setState({
         exercises: res.data
         })
       })
   }
-  // exToDisp = () => {
-  //   let tempArr = 
-  //    let tempArr2 = tempArr.filter(
-  //     (ex, i) => (tempArr.indexOf(ex) === i))
-  //    this.setState({ toList : tempArr2 })
-  // }
   
-  handleChange = (input) => {
-    this.setState({ filterBy: input.value });
-  }
   submit = (selected) => {
-    // this.props.history.push(`/exlist/${input.value}`)
-    this.setState({ muscle: selected, showExercises: true });
+    this.setState({ muscle: selected.value, selected: true })
   }
 
   render() {
+
     const { exercises, muscle, selected } = this.state
-    const mappedOpts = exercises.filter((ex, i) => (exercises.indexOf(ex) === i)).map(ex => {
-      return { value: ex.majormuscle , label: ex.majormuscle  }
-    })
+    const mappedOpts = exercises
+      .map(ex => {
+        return { value: ex.majormuscle, label: ex.majormuscle }
+      })
+      .filter((ex, index, self) => {
+        return index === self.findIndex(t => t.label === ex.label)
+      })
+
     return (
       <div>
         {selected ? 
@@ -54,14 +45,13 @@ class Landing extends Component {
           toDetailedView={this.toDetailedView}
           filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
           /> :
-      <LandingPage >
+      <LandingPage>
         <Select
         className='selectBox'
           options={mappedOpts}
           onChange={this.submit}
           />
-      </LandingPage>  
-        // <ExList exercises={exercises.filter(ex => ex.majormuscle === muscle)}/>
+      </LandingPage>
         }
       </div>
     )

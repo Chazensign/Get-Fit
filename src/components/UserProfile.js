@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import AppButton from './ExDetails/AppButton'
 import chest from './icons/chest.png'
@@ -11,12 +12,20 @@ import core from './icons/core.png'
 
 class UserProfile extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = { 
       meals: []
      }
   }
+
+  userGroup = (gr) => {
+    const groupExs = this.props.userExs.filter(ex => ex.majormuscle === gr)
+    const location = { pathname: '/user/exList', state: { exercises: groupExs } }
+      this.props.history.push(location)
+  }
+
   render() { 
+  
     return (
       <UserPage>
         <div className='head-space' />
@@ -24,12 +33,14 @@ class UserProfile extends Component {
           <h2>My Exercises</h2>
           <nav>
             <ul>
-              <Link to='/user/exercises/Chest'>
-                <div className='group-cont'>
-                  <img className='chest' src={chest} alt='chest' />
-                  <li>Chest</li>
-                </div>
-              </Link>
+              {/* <Link to='/user/exercises/Chest'> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Chest')}>
+                <img className='chest' src={chest} alt='chest' />
+                <li>Chest</li>
+              </div>
+              {/* </Link> */}
               <Link to='/user/exercises/Back'>
                 <div className='group-cont'>
                   <img className='back' src={back} alt='back' />
@@ -54,12 +65,12 @@ class UserProfile extends Component {
                   <li>Legs</li>
                 </div>
               </Link>
-              <Link to='/user/exercises/Core'>
-                <div className='group-cont'>
+                <div
+                  className='group-cont'
+                  onClick={() => this.userGroup('Core')}>
                   <img className='core' src={core} alt='core' />
                   <li>Core</li>
                 </div>
-              </Link>
             </ul>
           </nav>
         </article>
@@ -106,7 +117,14 @@ class UserProfile extends Component {
   }
 }
  
-export default UserProfile
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username,
+    userExs: reduxState.userExercises
+  }
+}
+export default connect(mapStateToProps)(UserProfile)
 
 const UserPage = styled.main`
   width: 100%;

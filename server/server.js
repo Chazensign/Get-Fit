@@ -2,9 +2,8 @@
 require("dotenv").config()
 const express = require('express')
 const { SERVER_PORT, CONNECTION_STRING, SESSION_SECRET } = process.env
-const ctrl = require('./controllers/Controller')
+const exCtrl = require('./controllers/ExerciseController')
 const userCtrl = require('./controllers/UserController')
-const DBCtrl = require('./controllers/DBController')
 const massive = require('massive')
 const session = require('express-session')
 
@@ -20,15 +19,17 @@ app.use(
   })
 )
 
-app.get('/api/all', ctrl.returnAll)
-app.get('/api/exercise/category', ctrl.getExByCat)
-app.get("/api/exercise/:id", ctrl.getExById)
-app.post('/api/exercise', ctrl.addEx)
-app.put('/api/exercise/:id', ctrl.editEx)
-app.delete('/api/exercise/:id', ctrl.deleteEx)
+app.get('/api/all', exCtrl.returnAll)
+// app.get('/api/exercise/category', ctrl.getExByCat)
+// app.get("/api/exercise/:id", ctrl.getExById)
+// app.post('/api/exercise', exCtrl.addEx)
+// app.get('/api/user/exercises?', exCtrl.getUserExercises)
+app.post('/api/user/exercises', exCtrl.addToUser)
+app.put('/api/exercise/:id', exCtrl.editUserEx)
+app.delete('/api/exercise/:id', exCtrl.removeUserEx)
 app.post('/api/register', userCtrl.register)
 app.post('/api/user', userCtrl.userLogin)
-app.get('/api/user/exercises?', DBCtrl.getUserExercises)
+app.delete('/api/user', userCtrl.userLogOut)
 
 massive(CONNECTION_STRING).then(db => {
   app.set('db', db)

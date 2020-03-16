@@ -1,31 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import axios from 'axios'
-import ExListDisp from './ExList/ExListDisp'
+import ExListDisp from './ExListDisp'
+import AppButton from './ExDetails/AppButton'
 
 const UserExList = (props) => {
-
-  const [userExercises, updateUserExercises] = useState([])
-  const { group } = props.match.params
-
-useEffect(() => {
-  axios
-    .get(
-      `/api/user/exercises?group=${group}&user=${props.userId}`
-    )
-    .then(res => {
-      updateUserExercises(res.data)
-    })
-    .catch(err => console.log(err)
-    )
-}, [group, props.userId])
-
+  const userExercises = props.location.state.exercises
   return ( 
     <UserList>
-      <ExListDisp filteredEx={userExercises} userId={props.userId} />
+      <ExListDisp filteredEx={userExercises} userId={props.userId} saved={true}/>
+      <AppButton name='Find New' />
     </UserList>
-   );
+   )
 }
 function mapStateToProps(reduxState) {
   return {

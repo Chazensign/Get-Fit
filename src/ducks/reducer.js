@@ -1,6 +1,8 @@
 const initialState = {
-  userId: 0,
-  username: ''
+  userId: null,
+  username: '',
+  userExercises: [],
+  userFoods: []
 }
 
 const SET_USER = 'SET_USER'

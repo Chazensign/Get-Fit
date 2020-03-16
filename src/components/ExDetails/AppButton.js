@@ -4,13 +4,13 @@ import styled from 'styled-components'
 function AppButton(props) {
  
   return ( 
-    <Button disabled={props.disbled ? props.disbled : false} onClick={props.onClick}>{props.name}</Button>
+    <ButtonStyle className={props.className} disabled={props.disbled ? props.disbled : false} onClick={props.onClick}>{props.name}</ButtonStyle>
    )
 }
  
 export default AppButton
 
-const Button = styled.button`
+const ButtonStyle = styled.button`
   box-shadow: inset 0px 1px 3px 0px #91b8b3;
   background: linear-gradient(to bottom, #768d87 5%, #6c7c7c 100%);
   background-color: #768d87;

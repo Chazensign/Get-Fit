@@ -63,8 +63,25 @@
      user_ex_id SERIAL PRIMARY KEY, 
      user_id INTEGER REFERENCES users (user_id), 
      ex_id INTEGER REFERENCES exercises (ex_id), 
-     notes VARCHAR, reps INTEGER,
+     notes VARCHAR,
+     modifications VARCHAR, 
+     reps INTEGER,
      sets INTEGER, 
      weight DECIMAL, 
-     time DECIMAL );
+     hr INTEGER,
+     min INTEGER,
+     sec INTEGER);
+
+insert into user_exs(user_id, ex_id, reps,
+                     sets, weight, modifications, notes, hr, min, sec)
+values(1,
+       1,
+       10,
+       4,
+       35,
+       null,
+       'This is my custom note.',
+       0,
+       0,
+       0);
    
