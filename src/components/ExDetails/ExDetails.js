@@ -1,13 +1,17 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { updateExs } from '../../ducks/reducer'
 import AppButton from './AppButton'
 import styled from 'styled-components'
+import UserExList from '../UserExList'
 
 class ExDetails extends Component {
   constructor(props) {
     super(props)
     const {
+      user_ex_id,
+      ex_id,
       notes,
       modifications,
       reps,
@@ -19,8 +23,9 @@ class ExDetails extends Component {
     } = this.props.location.state.exercise
     this.state = {
       toDisplay: {},
-      displayEdit: true,
       userData: {
+        user_ex_id,
+        ex_id,
         notes,
         modifications,
         reps,
@@ -33,8 +38,11 @@ class ExDetails extends Component {
     }
   }
   submitChange = () => {
-    axios.put(`/api/exercise/${this.state.toDisplay.id}`, this.state.userData)
-    this.toggleEdit()
+    console.log('submitChange');
+    
+    axios
+      .put('/api/user/exercise', {...this.state.userData, userId: this.props.userId})
+      .then(res => this.props.updateExs(res.data))
   }
   componentDidMount() {
     if (!this.props.location.state.exercise) {
@@ -48,7 +56,11 @@ class ExDetails extends Component {
   }
   addExToUser = () => {
     if (!this.props.userId) return alert('Please login or register.')
-    axios.post('/api/user')
+    let index = this.props.userExercises.filter(ex => ex.ex_id === this.state.userData.ex_id)
+    if (index[0]) return this.submitChange()
+    axios
+      .post('/api/user/exercises', this.state.userData)
+      .then(res => this.props.updateExs(res.data))
   }
   handleChange = trg => {
     this.setState({
@@ -61,19 +73,25 @@ class ExDetails extends Component {
       .then(res => this.goBack())
       .catch(err => console.log(err))
   }
-  goBack = () => {
-    this.props.history.push(`/exlist/${this.state.toDisplay.MajorMuscle}`)
+  goBack = (mM) => {
+    const location = {
+      pathname: '/user/exList',
+      state: { group: mM }
+    }
+    this.props.history.push(location)
   }
 
   render() {
     const {
-      ex_id,
       exercise,
       equipment,
       exercisetype,
       majormuscle,
       minormuscle,
-      example,
+      example
+    } = this.props.location.state.exercise
+     const {
+      ex_id,
       notes,
       modifications,
       reps,
@@ -82,9 +100,7 @@ class ExDetails extends Component {
       hr,
       min,
       sec
-    } = this.props.location.state.exercise
-      ? this.props.location.state.exercise
-      : this.state.toDisplay
+    } = this.state.userData
 
     return (
       <DetailStyle>
@@ -205,13 +221,13 @@ class ExDetails extends Component {
         <div className='button-cont'>
           {this.props.userId && (
             <>
-              <AppButton name='Save' onClick={this.toggleEdit} />
+              <AppButton name='Save' onClick={this.addExToUser} />
               {this.props.saved && (
                 <AppButton name='Remove' onClick={this.deleteEx} />
               )}
             </>
           )}
-          <AppButton name='Go Back' onClick={this.goBack} />
+          <AppButton name='Go Back' onClick={() => this.goBack(majormuscle)} />
         </div>
       </DetailStyle>
     )
@@ -221,10 +237,11 @@ class ExDetails extends Component {
 function mapStateToProps(reduxState) {
   return {
     userId: reduxState.userId,
-    username: reduxState.username
+    username: reduxState.username,
+    userExercises: reduxState.userExercises
   }
 }
-export default connect(mapStateToProps)(ExDetails)
+export default connect(mapStateToProps, {updateExs})(ExDetails)
 
 const DetailStyle = styled.div`
   padding-top: 60px;

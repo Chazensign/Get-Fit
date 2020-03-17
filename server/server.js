@@ -14,7 +14,7 @@ app.use(express.json())
 app.use(
   session({
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     secret: SESSION_SECRET
   })
 )
@@ -25,7 +25,7 @@ app.get('/api/all', exCtrl.returnAll)
 // app.post('/api/exercise', exCtrl.addEx)
 // app.get('/api/user/exercises?', exCtrl.getUserExercises)
 app.post('/api/user/exercises', exCtrl.addToUser)
-app.put('/api/exercise/:id', exCtrl.editUserEx)
+app.put('/api/user/exercise', exCtrl.editUserEx)
 app.delete('/api/exercise/:id', exCtrl.removeUserEx)
 app.post('/api/register', userCtrl.register)
 app.post('/api/user', userCtrl.userLogin)

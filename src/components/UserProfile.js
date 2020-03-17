@@ -19,8 +19,8 @@ class UserProfile extends Component {
   }
 
   userGroup = (gr) => {
-    const groupExs = this.props.userExs.filter(ex => ex.majormuscle === gr)
-    const location = { pathname: '/user/exList', state: { exercises: groupExs } }
+    // const groupExs = this.props.userExs.filter(ex => ex.majormuscle === gr)
+    const location = { pathname: '/user/exList', state: { group: gr } }
       this.props.history.push(location)
   }
 

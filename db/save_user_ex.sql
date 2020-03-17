@@ -11,7 +11,6 @@ values($1,
        $9,
        $10);
 
-
 select *
 from user_exs
 where user_id = $1;

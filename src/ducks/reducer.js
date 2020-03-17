@@ -7,6 +7,7 @@ const initialState = {
 
 const SET_USER = 'SET_USER'
 const CLEAR_USER = 'CLEAR_USER'
+const UPDATE_EXS = 'UPDATE_EXS'
 
 export function setUser(userObj) {
   return {
@@ -22,12 +23,21 @@ export function clearUser() {
   }
 }
 
+export function updateExs(exs) {
+  return {
+    type: UPDATE_EXS,
+    payload: {exs}
+  }
+}
+
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case SET_USER:
       return { ...action.payload }
     case CLEAR_USER:
       return { ...action.payload }
+      case UPDATE_EXS:
+        return {...state, userExercises: action.payload.exs}
 
     default:
       return state

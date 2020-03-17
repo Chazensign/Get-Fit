@@ -24,17 +24,19 @@ module.exports = {
 
   addToUser: async (req, res) => {
     const { userId } = req.session.user
-    const { ex_id, notes, modifications, reps, sets, weight, time } = req.body
+    const { ex_id, notes, modifications, reps, sets, weight, hr, min, sec } = req.body
     const db = await req.app.get('db')
     const userExs = await db.save_user_ex(
       userId,
       ex_id,
-      notes,
       modifications,
+      notes,
       reps,
       sets,
       weight,
-      time
+      hr,
+      min,
+      sec
     )
     if (userExs[0]) {
       res.status(200).send(userExs)
@@ -43,10 +45,34 @@ module.exports = {
     }
   },
 
-  editUserEx: (req, res) => {
-    let index = exData.findIndex(ex => ex.id === req.params.id)
-    exData.splice(index, 1, req.body)
-    res.sendStatus(200)
+  editUserEx: async (req, res) => {
+    const {
+      userId,
+      user_ex_id,
+      notes,
+      modifications,
+      reps,
+      sets,
+      weight,
+      hr,
+      min,
+      sec,
+      ex_id
+    } = req.body
+    const db = await req.app.get('db')
+    const userExs = await db.update_user_ex(
+      user_ex_id,
+      notes,
+      modifications,
+      reps,
+      sets,
+      weight,
+      hr,
+      min,
+      sec,
+      userId,
+      ex_id)
+    res.status(200).send(userExs)
   },
 
   removeUserEx: (req, res) => {
