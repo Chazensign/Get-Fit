@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { updateExs } from '../../ducks/reducer'
 import AppButton from './AppButton'
 import styled from 'styled-components'
-import UserExList from '../UserExList'
 
 class ExDetails extends Component {
   constructor(props) {
@@ -38,10 +37,13 @@ class ExDetails extends Component {
     }
   }
   submitChange = () => {
-    console.log('submitChange');
-    
+    console.log('submitChange')
+
     axios
-      .put('/api/user/exercise', {...this.state.userData, userId: this.props.userId})
+      .put('/api/user/exercise', {
+        ...this.state.userData,
+        userId: this.props.userId
+      })
       .then(res => this.props.updateExs(res.data))
   }
   componentDidMount() {
@@ -56,7 +58,9 @@ class ExDetails extends Component {
   }
   addExToUser = () => {
     if (!this.props.userId) return alert('Please login or register.')
-    let index = this.props.userExercises.filter(ex => ex.ex_id === this.state.userData.ex_id)
+    let index = this.props.userExercises.filter(
+      ex => ex.ex_id === this.state.userData.ex_id
+    )
     if (index[0]) return this.submitChange()
     axios
       .post('/api/user/exercises', this.state.userData)
@@ -73,10 +77,18 @@ class ExDetails extends Component {
       .then(res => this.goBack())
       .catch(err => console.log(err))
   }
-  goBack = (mM) => {
-    const location = {
-      pathname: '/user/exList',
-      state: { group: mM }
+  goBack = mM => {
+    let location
+    if (this.props.location.state.exercise.user_ex_id) {
+      location = {
+        pathname: '/user/exList',
+        state: { group: mM }
+      }
+    } else {
+      location = {
+        pathname: '/',
+        state: { group: mM }
+      }
     }
     this.props.history.push(location)
   }
@@ -90,7 +102,7 @@ class ExDetails extends Component {
       minormuscle,
       example
     } = this.props.location.state.exercise
-     const {
+    const {
       ex_id,
       notes,
       modifications,
@@ -131,7 +143,7 @@ class ExDetails extends Component {
               />
             </div>
             <div className='line-cont'>
-              <h2 className='modifications' >Modifications: </h2>
+              <h2 className='modifications'>Modifications: </h2>
               <textarea
                 name='modifications'
                 onChange={e => this.handleChange(e.target)}
@@ -241,7 +253,7 @@ function mapStateToProps(reduxState) {
     userExercises: reduxState.userExercises
   }
 }
-export default connect(mapStateToProps, {updateExs})(ExDetails)
+export default connect(mapStateToProps, { updateExs })(ExDetails)
 
 const DetailStyle = styled.div`
   padding-top: 60px;

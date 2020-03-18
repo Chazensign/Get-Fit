@@ -3,12 +3,7 @@ import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import AppButton from './ExDetails/AppButton'
-import chest from './icons/chest.png'
-import back from './icons/back.png'
-import shoulders from './icons/shoulders.png'
-import arm from './icons/arm.png'
-import leg from './icons/leg.png'
-import core from './icons/core.png'
+import icons from './icons/Icons'
 
 class UserProfile extends Component {
   constructor(props) {
@@ -17,7 +12,7 @@ class UserProfile extends Component {
       meals: []
      }
   }
-
+  
   userGroup = (gr) => {
     // const groupExs = this.props.userExs.filter(ex => ex.majormuscle === gr)
     const location = { pathname: '/user/exList', state: { group: gr } }
@@ -25,7 +20,7 @@ class UserProfile extends Component {
   }
 
   render() { 
-  
+    icons()
     return (
       <UserPage>
         <div className='head-space' />
@@ -37,40 +32,52 @@ class UserProfile extends Component {
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Chest')}>
-                <img className='chest' src={chest} alt='chest' />
+                <img className='chest' src={window['chest']} alt='chest' />
                 <li>Chest</li>
               </div>
               {/* </Link> */}
-              <Link to='/user/exercises/Back'>
-                <div className='group-cont'>
-                  <img className='back' src={back} alt='back' />
-                  <li>Back</li>
-                </div>
-              </Link>
-              <Link to='/user/exercises/Shoulders'>
-                <div className='group-cont'>
-                  <img className='shoulders' src={shoulders} alt='shoulders' />
-                  <li>Shoulders</li>
-                </div>
-              </Link>
-              <Link to='/user/exercises/Arms'>
-                <div className='group-cont'>
-                  <img className='arm' src={arm} alt='arm' />
-                  <li>Arms</li>
-                </div>
-              </Link>
-              <Link to='/user/exercises/Legs'>
-                <div className='group-cont'>
-                  <img className='leg' src={leg} alt='leg' />
-                  <li>Legs</li>
-                </div>
-              </Link>
-                <div
-                  className='group-cont'
-                  onClick={() => this.userGroup('Core')}>
-                  <img className='core' src={core} alt='core' />
-                  <li>Core</li>
-                </div>
+              {/* <Link to='/user/exercises/Back'> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Back')}>
+                <img className='back' src={window.back} alt='back' />
+                <li>Back</li>
+              </div>
+              {/* </Link> */}
+              {/* <Link to='/user/exercises/Shoulders'> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Shoulders')}>
+                <img
+                  className='shoulders'
+                  src={window.shoulders}
+                  alt='shoulders'
+                />
+                <li>Shoulders</li>
+              </div>
+              {/* </Link> */}
+              {/* <Link to='/user/exercises/Arms'> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Arms')}>
+                <img className='arm' src={window.arm} alt='arm' />
+                <li>Arms</li>
+              </div>
+              {/* </Link> */}
+              {/* <Link to='/user/exercises/Legs'> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Legs')}>
+                <img className='leg' src={window.leg} alt='leg' />
+                <li>Legs</li>
+              </div>
+              {/* </Link> */}
+              <div
+                className='group-cont'
+                onClick={() => this.userGroup('Core')}>
+                <img className='core' src={window.core} alt='core' />
+                <li>Core</li>
+              </div>
             </ul>
           </nav>
         </article>

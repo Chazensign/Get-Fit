@@ -6,25 +6,34 @@ import styled from 'styled-components'
 import ExListDisp from './ExListDisp'
 
 class Landing extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       exercises: [],
       muscle: '',
       selected: false
     }
   }
-  componentDidMount() {
-    axios
-    .get('/api/all').then(res => {
-      this.setState({
-        exercises: res.data
+  componentDidMount = () => {
+    axios.get('/api/all')
+    .then(res => {
+      if (this.props.location.state) {
+        return this.setState({
+            exercises: res.data,
+            muscle: this.props.location.state.group,
+            selected: true
+          })
+      }else {
+        this.setState({
+          exercises: res.data
         })
-      })
+      }
+    })
+    .catch(err => console.log(err))
   }
   
-  submit = (selected) => {
-    this.setState({ muscle: selected.value, selected: true })
+  submit = (selected, show) => {
+    this.setState({ muscle: selected.value, selected: show })
   }
 
   render() {
@@ -37,19 +46,19 @@ class Landing extends Component {
       .filter((ex, index, self) => {
         return index === self.findIndex(t => t.label === ex.label)
       })
-
+      
     return (
       <div>
         {selected ? 
         <ExListDisp
-          toDetailedView={this.toDetailedView}
+          submit={this.submit}
           filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
           /> :
       <LandingPage>
         <Select
         className='selectBox'
           options={mappedOpts}
-          onChange={this.submit}
+          onChange={(e) => this.submit(e, true)}
           />
       </LandingPage>
         }
