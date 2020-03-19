@@ -120,8 +120,6 @@ module.exports = {
       notes,
       modifications
     )
-    console.log(newExId[0].ex_id)
-    
     if (checked) {
       userExs = await db.save_user_ex(
         req.session.user.userId,
@@ -136,7 +134,6 @@ module.exports = {
         sec
       )
     }
-    const allExs = await db.get_all_exercises()
-    res.status(200).send({ userExs, allExs })
+    res.status(200).send({ userExs })
   }
 }

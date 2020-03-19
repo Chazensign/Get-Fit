@@ -15,14 +15,15 @@ class Landing extends Component {
     }
   }
   componentDidMount = () => {
-    if (this.props.location.state) this.setState({ selected: true })
+    // if (this.props.location.state) this.setState({ selected: true })
       axios
         .get('/api/all')
         .then(res => {
           if (this.props.location.state) {
             return this.setState({
               exercises: res.data,
-              muscle: this.props.location.state.group
+              muscle: this.props.location.state.group,
+              selected: true 
             })
           } else {
             this.setState({

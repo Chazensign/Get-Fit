@@ -13,14 +13,14 @@ class Inputs extends Component {
       exercise: '',
       equipment: '',
       exercisetype: '',
-      majormuscle: this.props.match.params.group,
+      majormuscle: this.props.location.state.group,
       minormuscle: '',
       example: '',
       notes: '',
       modifications: '',
-      reps: null,
-      sets: null,
-      weight: null,
+      reps: '',
+      sets: '',
+      weight: '',
       hr: 0,
       min: 0,
       sec: 0
@@ -73,6 +73,7 @@ class Inputs extends Component {
 
    return (
      <main className='edit-box'>
+       <form>
        {/* <h3>Add to my exercises </h3> */}
        <input
          type='checkbox'
@@ -83,7 +84,6 @@ class Inputs extends Component {
        />
        <label htmlFor='toUser'>Add to my exercises:</label>
        <input
-         required
          name='exercise'
          type='text'
          onChange={e => this.handleChange(e.target)}
@@ -107,15 +107,19 @@ class Inputs extends Component {
          value={exercisetype || ''}
          required={true}
        />
-       <input
-         required
+       <select
          name='majormuscle'
-         type='text'
          onChange={e => this.handleChange(e.target)}
-         placeholder='Main Muscle Worked'
-         value={majormuscle || ''}
+         value={majormuscle}
          required={true}
-       />
+       >
+         <option value="Chest">Chest</option>
+         <option value="Back">Back</option>
+         <option value="Shoulders">Shoulders</option>
+         <option value="Arms">Arms</option>
+         <option value="Legs">Legs</option>
+         <option value="Core">Core</option>
+       </select>
        <input
          name='minormuscle'
          type='text'
@@ -214,8 +218,9 @@ class Inputs extends Component {
            </div>
          </>
        )}
-       <AppButton name='Submit' onClick={() => this.submitEx()} />
+       <AppButton name='Submit' type='button' onClick={() => this.submitEx()} />
        <AppButton name='Cancel' />
+       </form>
      </main>
    )
  }

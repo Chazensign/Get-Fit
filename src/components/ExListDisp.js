@@ -7,13 +7,8 @@ import styled from 'styled-components'
 
 
 function ExListDisp (props) { 
-  let {filteredEx} = props
-  let group
-  if (props.location.state) {
-    group = props.location.state.group
-  }else {
-    group = props.group
-  }
+  
+  let {filteredEx, group} = props
   
   function goBack() {
     if (props.saved) {
@@ -25,7 +20,11 @@ function ExListDisp (props) {
 
   function toInputs() {
     if (props.userId) {
-      props.history.push(`/add/exercise/${group}`)
+      const location = {
+        pathname: '/add/exercise',
+        state: { group: group }
+      }
+    props.history.push(location)
     }else {
       alert('Please login')
     }
@@ -33,6 +32,7 @@ function ExListDisp (props) {
 
   return (
     <ExListStyle>
+      <h2>{group}</h2>
       <ol>
         {filteredEx.map(ex => {
           return (
@@ -70,7 +70,8 @@ const ExListStyle = styled.main`
   padding-top: 60px;
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
+  align-items: center;
+  justify-content: space-between;
   /* .header-back {
     height: 60px;
     width: 100%;
@@ -78,6 +79,13 @@ const ExListStyle = styled.main`
     position: sticky;
     top: 0;
   } */
+  h2 {
+    padding: 8px 0 0 8px;
+    margin-left: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    font-family: 'Racing Sans One', cursive;
+  }
   ol {
     font-family: 'Racing Sans One', cursive !important;
     font-size: 20px;

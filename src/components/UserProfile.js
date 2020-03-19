@@ -28,23 +28,18 @@ class UserProfile extends Component {
           <h2>My Exercises</h2>
           <nav>
             <ul>
-              {/* <Link to='/user/exercises/Chest'> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Chest')}>
                 <img className='chest' src={window['chest']} alt='chest' />
                 <li>Chest</li>
               </div>
-              {/* </Link> */}
-              {/* <Link to='/user/exercises/Back'> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Back')}>
                 <img className='back' src={window.back} alt='back' />
                 <li>Back</li>
               </div>
-              {/* </Link> */}
-              {/* <Link to='/user/exercises/Shoulders'> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Shoulders')}>
@@ -55,23 +50,18 @@ class UserProfile extends Component {
                 />
                 <li>Shoulders</li>
               </div>
-              {/* </Link> */}
-              {/* <Link to='/user/exercises/Arms'> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Arms')}>
-                <img className='arm' src={window.arm} alt='arm' />
+                <img className='arm' src={window.arms} alt='arms' />
                 <li>Arms</li>
               </div>
-              {/* </Link> */}
-              {/* <Link to='/user/exercises/Legs'> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Legs')}>
-                <img className='leg' src={window.leg} alt='leg' />
+                <img className='leg' src={window.legs} alt='legs' />
                 <li>Legs</li>
               </div>
-              {/* </Link> */}
               <div
                 className='group-cont'
                 onClick={() => this.userGroup('Core')}>

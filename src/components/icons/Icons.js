@@ -1,8 +1,8 @@
 import chest from './chest.png'
 import back from './back.png'
 import shoulders from './shoulders.png'
-import arm from './arm.png'
-import leg from './leg.png'
+import arms from './arm.png'
+import legs from './leg.png'
 import core from './core.png'
 
 const Icons = () => {
@@ -10,8 +10,8 @@ const Icons = () => {
     (window.chest = chest),
     (window.back = back),
     (window.shoulders = shoulders),
-    (window.arm = arm),
-    (window.leg = leg),
+    (window.arms = arms),
+    (window.legs = legs),
     (window.core = core)
   )
 }
