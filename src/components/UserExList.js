@@ -26,7 +26,7 @@ const UserExList = (props) => {
       </div>
       <ExListDisp
         filteredEx={groupExs}
-        userId={props.userId}
+        userList={true}
         saved={true}
         group={group}
       />

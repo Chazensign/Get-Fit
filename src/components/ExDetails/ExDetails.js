@@ -36,16 +36,7 @@ class ExDetails extends Component {
       }
     }
   }
-  submitChange = () => {
-    console.log('submitChange')
 
-    axios
-      .put('/api/user/exercise', {
-        ...this.state.userData,
-        userId: this.props.userId
-      })
-      .then(res => this.props.updateExs(res.data))
-  }
   componentDidMount() {
     if (!this.props.location.state.exercise) {
       axios
@@ -56,6 +47,7 @@ class ExDetails extends Component {
         .catch(err => console.log(err))
     }
   }
+
   addExToUser = () => {
     if (!this.props.userId) return alert('Please login or register.')
     let index = this.props.userExercises.filter(
@@ -66,17 +58,29 @@ class ExDetails extends Component {
       .post('/api/user/exercises', this.state.userData)
       .then(res => this.props.updateExs(res.data))
   }
+
   handleChange = trg => {
     this.setState({
       userData: { ...this.state.userData, [trg.name]: trg.value }
     })
   }
+
+  submitChange = () => {
+    axios
+      .put('/api/user/exercise', {
+        ...this.state.userData,
+        userId: this.props.userId
+      })
+      .then(res => this.props.updateExs(res.data))
+  }
+
   deleteEx = () => {
     axios
       .delete(`/api/exercise/${this.state.toDisplay.id}`)
       .then(res => this.goBack())
       .catch(err => console.log(err))
   }
+  
   goBack = mM => {
     let location
     if (this.props.location.state.exercise.user_ex_id) {

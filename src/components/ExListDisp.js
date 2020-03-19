@@ -1,18 +1,33 @@
 import React from 'react'
 import { Link } from "react-router-dom"
 import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
 import AppButton from './ExDetails/AppButton'
 import styled from 'styled-components'
 
 
 function ExListDisp (props) { 
-  let {filteredEx, group} = props
+  let {filteredEx} = props
+  let group
+  if (props.location.state) {
+    group = props.location.state.group
+  }else {
+    group = props.group
+  }
   
   function goBack() {
     if (props.saved) {
       props.history.push('/profile')
     } else {
       props.submit('', false)
+    }
+  }
+
+  function toInputs() {
+    if (props.userId) {
+      props.history.push(`/add/exercise/${group}`)
+    }else {
+      alert('Please login')
     }
   }
 
@@ -34,7 +49,7 @@ function ExListDisp (props) {
       </ol>
       <div className='buttons'>
         {!props.saved && 
-              <AppButton className='add-button' name='Add New' />
+              <AppButton className='add-button' name='Add New' onClick={toInputs}/>
         }
         <AppButton className='back-button' name='Back' onClick={() => goBack()}/>
       </div>
@@ -42,7 +57,14 @@ function ExListDisp (props) {
   )
 }
  
-export default withRouter(ExListDisp)
+function mapStateToProps(reduxState) {
+  return {
+    userId: reduxState.userId,
+    username: reduxState.username,
+    userExercises: reduxState.userExercises
+  }
+}
+export default connect(mapStateToProps)(withRouter(ExListDisp))
 
 const ExListStyle = styled.main`
   padding-top: 60px;

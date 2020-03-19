@@ -15,21 +15,22 @@ class Landing extends Component {
     }
   }
   componentDidMount = () => {
-    axios.get('/api/all')
-    .then(res => {
-      if (this.props.location.state) {
-        return this.setState({
-            exercises: res.data,
-            muscle: this.props.location.state.group,
-            selected: true
-          })
-      }else {
-        this.setState({
-          exercises: res.data
+    if (this.props.location.state) this.setState({ selected: true })
+      axios
+        .get('/api/all')
+        .then(res => {
+          if (this.props.location.state) {
+            return this.setState({
+              exercises: res.data,
+              muscle: this.props.location.state.group
+            })
+          } else {
+            this.setState({
+              exercises: res.data
+            })
+          }
         })
-      }
-    })
-    .catch(err => console.log(err))
+        .catch(err => console.log(err))
   }
   
   submit = (selected, show) => {
@@ -53,6 +54,7 @@ class Landing extends Component {
         <ExListDisp
           submit={this.submit}
           filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
+          group={muscle}
           /> :
       <LandingPage>
         <Select

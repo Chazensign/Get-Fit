@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 
 function AppButton(props) {
- 
+
   return ( 
-    <ButtonStyle className={props.className} disabled={props.disbled ? props.disbled : false} onClick={props.onClick}>{props.name}</ButtonStyle>
+    <ButtonStyle className={props.className} disabled={props.disabled ? props.disabled : false} onClick={props.onClick}>{props.name}</ButtonStyle>
    )
 }
  

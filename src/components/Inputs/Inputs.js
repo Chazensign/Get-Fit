@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import './Inputs.css'
 import AppButton from '../ExDetails/AppButton'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { updateExs } from '../../ducks/reducer'
 
 class Inputs extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      checked: false,
       exercise: '',
       equipment: '',
       exercisetype: '',
-      majormuscle: '',
+      majormuscle: this.props.match.params.group,
       minormuscle: '',
       example: '',
       notes: '',
@@ -18,9 +21,9 @@ class Inputs extends Component {
       reps: null,
       sets: null,
       weight: null,
-      hr: null,
-      min: null,
-      sec: null
+      hr: 0,
+      min: 0,
+      sec: 0
     }
   }
 
@@ -28,12 +31,27 @@ class Inputs extends Component {
     this.setState({ [trg.name]: trg.value })
   }
   submitEx = () => {
-    axios.post('/api/exercise', this.state)
+    if (this.props.userId) {
+    axios
+    .post('/api/add/exercise', this.state)
+    .then(res => {
+      if (this.state.checked) {
+      this.props.updateExs(res.data.userExs)
+      this.props.history.push('/user/exlist', {group: this.state.majormuscle})
+      }else {
+        this.props.history.push('/')
+      }
+
+    })
+    }else {
+      alert('Must be logged in.')
+    }
   }
 
  render() {
 
   const {
+    checked,
     exercise,
     equipment,
     exercisetype,
@@ -50,31 +68,36 @@ class Inputs extends Component {
     sec
   } = this.state
 
-  
-
    return (
      <form className='edit-box'>
-       <h3>Add to my exercises </h3>
-       <input type='checkbox' />
+       {/* <h3>Add to my exercises </h3> */}
+       <input
+         type='checkbox'
+         id='toUser'
+         name='toUser'
+         value={true}
+         onClick={() => this.setState({ checked: !checked })}
+       />
+       <label htmlFor='toUser'>Add to my exercises:</label>
        <input
          required
          name='exercise'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Exercise Name'
-         value={exercise || ''}
+         value={exercise}
        />
        <input
          name='equipment'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Necessary Equipment'
-         value={equipment || ''}
+         value={equipment}
        />
        <input
          name='exercisetype'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Type of Exercise'
          value={exercisetype || ''}
        />
@@ -82,21 +105,21 @@ class Inputs extends Component {
          required
          name='majormuscle'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Main Muscle Worked'
          value={majormuscle || ''}
        />
        <input
          name='minormuscle'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Secondary Muscle Worked'
          value={minormuscle || ''}
        />
        <input
          name='example'
          type='text'
-         onChange={e => this.handleChange(e)}
+         onChange={e => this.handleChange(e.target)}
          placeholder='Image/gif URL'
          value={example || ''}
        />
@@ -141,7 +164,10 @@ class Inputs extends Component {
              <h2>Time:</h2>
              <div className='time-and-title'>
                <h3>Hr</h3>
-               <select name='hr' value={hr} onChange={e => this.handleChange(e.target)}>
+               <select
+                 name='hr'
+                 value={hr}
+                 onChange={e => this.handleChange(e.target)}>
                  {[...Array(10)].map((el, i) => (
                    <option key={i} value={i}>
                      {i}
@@ -152,7 +178,10 @@ class Inputs extends Component {
              <h3>:</h3>
              <div className='time-and-title'>
                <h3>Min</h3>
-               <select name='min' value={min} onChange={e => this.handleChange(e.target)}>
+               <select
+                 name='min'
+                 value={min}
+                 onChange={e => this.handleChange(e.target)}>
                  {[...Array(59)].map((el, i) => (
                    <option key={i} value={i}>
                      {i}
@@ -163,7 +192,10 @@ class Inputs extends Component {
              <h3>:</h3>
              <div className='time-and-title'>
                <h3>Sec</h3>
-               <select name='sec' value={sec} onChange={e => this.handleChange(e.target)}>
+               <select
+                 name='sec'
+                 value={sec}
+                 onChange={e => this.handleChange(e.target)}>
                  {[...Array(59)].map((el, i) => (
                    <option key={i} value={i}>
                      {i}
@@ -174,11 +206,22 @@ class Inputs extends Component {
            </div>
          </>
        )}
-       <AppButton type='submit' name='Submit' onClick={() => this.submitEx()} />
+       <AppButton
+         disabled={this.props.userId}
+         type='submit'
+         name='Submit'
+         onClick={() => this.submitEx()}
+       />
        <AppButton name='Cancel' />
      </form>
    )
  }
 }
- 
-export default Inputs;
+ function mapStateToProps(reduxState) {
+   return {
+     userId: reduxState.userId,
+     username: reduxState.username,
+     userExercises: reduxState.userExercises
+   }
+ }
+export default connect(mapStateToProps, {updateExs})(Inputs);

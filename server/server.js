@@ -22,7 +22,7 @@ app.use(
 app.get('/api/all', exCtrl.returnAll)
 // app.get('/api/exercise/category', ctrl.getExByCat)
 // app.get("/api/exercise/:id", ctrl.getExById)
-// app.post('/api/exercise', exCtrl.addEx)
+app.post('/api/add/exercise', exCtrl.addEx)
 // app.get('/api/user/exercises?', exCtrl.getUserExercises)
 app.post('/api/user/exercises', exCtrl.addToUser)
 app.put('/api/user/exercise', exCtrl.editUserEx)
