@@ -37,11 +37,14 @@ class Inputs extends Component {
     .then(res => {
       if (this.state.checked) {
       this.props.updateExs(res.data.userExs)
-      this.props.history.push('/user/exlist', {group: this.state.majormuscle})
+      const location = {
+        pathname: '/user/exlist',
+        state: {group: this.state.majormuscle}
+      }
+      this.props.history.push(location)
       }else {
         this.props.history.push('/')
       }
-
     })
     }else {
       alert('Must be logged in.')
@@ -69,7 +72,7 @@ class Inputs extends Component {
   } = this.state
 
    return (
-     <form className='edit-box'>
+     <main className='edit-box'>
        {/* <h3>Add to my exercises </h3> */}
        <input
          type='checkbox'
@@ -86,6 +89,7 @@ class Inputs extends Component {
          onChange={e => this.handleChange(e.target)}
          placeholder='Exercise Name'
          value={exercise}
+         required={true}
        />
        <input
          name='equipment'
@@ -93,6 +97,7 @@ class Inputs extends Component {
          onChange={e => this.handleChange(e.target)}
          placeholder='Necessary Equipment'
          value={equipment}
+         required={true}
        />
        <input
          name='exercisetype'
@@ -100,6 +105,7 @@ class Inputs extends Component {
          onChange={e => this.handleChange(e.target)}
          placeholder='Type of Exercise'
          value={exercisetype || ''}
+         required={true}
        />
        <input
          required
@@ -108,6 +114,7 @@ class Inputs extends Component {
          onChange={e => this.handleChange(e.target)}
          placeholder='Main Muscle Worked'
          value={majormuscle || ''}
+         required={true}
        />
        <input
          name='minormuscle'
@@ -122,6 +129,7 @@ class Inputs extends Component {
          onChange={e => this.handleChange(e.target)}
          placeholder='Image/gif URL'
          value={example || ''}
+         required={true}
        />
        <input
          name='notes'
@@ -144,7 +152,7 @@ class Inputs extends Component {
              type='text'
              onChange={e => this.handleChange(e.target)}
              placeholder='Reps'
-             value={reps || ''}
+             value={reps}
            />
            <input
              name='sets'
@@ -206,14 +214,9 @@ class Inputs extends Component {
            </div>
          </>
        )}
-       <AppButton
-         disabled={this.props.userId}
-         type='submit'
-         name='Submit'
-         onClick={() => this.submitEx()}
-       />
+       <AppButton name='Submit' onClick={() => this.submitEx()} />
        <AppButton name='Cancel' />
-     </form>
+     </main>
    )
  }
 }

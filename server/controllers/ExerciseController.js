@@ -120,10 +120,12 @@ module.exports = {
       notes,
       modifications
     )
+    console.log(newExId[0].ex_id)
+    
     if (checked) {
       userExs = await db.save_user_ex(
         req.session.user.userId,
-        newExId,
+        newExId[0].ex_id,
         modifications,
         notes,
         reps,
