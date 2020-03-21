@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import AppButton from './ExDetails/AppButton'
+import AppButton from './AppButton'
 import icons from './icons/Icons'
 
 class UserProfile extends Component {

@@ -4,7 +4,7 @@ import axios from 'axios'
 import { setUser } from '../ducks/reducer'
 import { connect } from 'react-redux'
 import { useState } from 'react'
-import AppButton from './ExDetails/AppButton'
+import AppButton from './AppButton'
 
 const Login = (props) => {
 

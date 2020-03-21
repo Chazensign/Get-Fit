@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components'
 import axios from 'axios'
 import { setUser } from '../ducks/reducer'
-import AppButton from './ExDetails/AppButton'
+import AppButton from './AppButton'
 
 const Register = (props) => {
 

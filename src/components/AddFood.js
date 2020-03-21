@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 import BarcodeReader from 'react-barcode-reader'
-import AppButton from './ExDetails/AppButton'
+import AppButton from './AppButton'
 import { Link } from 'react-router-dom'
 
 const AddFood = () => {

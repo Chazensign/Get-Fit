@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './Inputs.css'
-import AppButton from '../ExDetails/AppButton'
+import AppButton from '../AppButton'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateExs } from '../../ducks/reducer'

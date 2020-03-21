@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { updateExs } from '../../ducks/reducer'
+import { updateExs } from '../ducks/reducer'
 import AppButton from './AppButton'
 import styled from 'styled-components'
+import icons from './icons/Icons'
 
 class ExDetails extends Component {
   constructor(props) {
@@ -22,6 +23,7 @@ class ExDetails extends Component {
     } = this.props.location.state.exercise
     this.state = {
       toDisplay: {},
+      group: props.location.state.group,
       userData: {
         user_ex_id,
         ex_id,
@@ -38,6 +40,7 @@ class ExDetails extends Component {
   }
 
   componentDidMount() {
+    
     if (!this.props.location.state.exercise) {
       axios
         .get(`/api/exercise/${this.props.match.params.id}`)
@@ -80,7 +83,7 @@ class ExDetails extends Component {
       .then(res => this.goBack())
       .catch(err => console.log(err))
   }
-  
+
   goBack = mM => {
     let location
     if (this.props.location.state.exercise.user_ex_id) {
@@ -117,12 +120,19 @@ class ExDetails extends Component {
       min,
       sec
     } = this.state.userData
-
+    icons()
     return (
       <DetailStyle>
         <div className='header-back'></div>
         <div id={ex_id}>
-          <h3 className='ex-title'>{exercise}</h3>
+          <div className='title-icon'>
+            <h1>{exercise}</h1>
+            <img
+              className='group-png'
+              src={window[majormuscle.toLowerCase()]}
+              alt=''
+            />
+          </div>
           <dl>
             <div className='line-cont'>
               <h2>Equipment:</h2> <span>{equipment}</span>
@@ -139,19 +149,19 @@ class ExDetails extends Component {
               </div>
             )}
             <div className='line-cont'>
-              <h2 className='notes'>Notes: </h2>
-              <textarea
-                name='notes'
-                onChange={e => this.handleChange(e.target)}
-                value={notes}
-              />
-            </div>
-            <div className='line-cont'>
               <h2 className='modifications'>Modifications: </h2>
               <textarea
                 name='modifications'
                 onChange={e => this.handleChange(e.target)}
                 value={modifications}
+              />
+            </div>
+            <div className='line-cont'>
+              <h2 className='notes'>Notes: </h2>
+              <textarea
+                name='notes'
+                onChange={e => this.handleChange(e.target)}
+                value={notes}
               />
             </div>
             {this.props.userId && (
@@ -265,6 +275,19 @@ const DetailStyle = styled.div`
   flex-direction: column;
   height: 100vh;
   background: #e0e0e0;
+  .title-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    h1 {
+      font-size: 32px;
+      font-family: 'Racing Sans One', cursive;
+      margin: 10px 10px;
+    }
+    .group-png {
+      height: 40px;
+    }
+  }
   .line-cont {
     display: flex;
     align-items: center;

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
-import './Header.css'
-import Login from '../Login'
+import Login from './Login'
 import { connect } from 'react-redux'
-import Register from '../Register'
+import Register from './Register'
+import styled from 'styled-components'
 
 const Header = (props) => {
 
@@ -12,7 +12,7 @@ const Header = (props) => {
 
   return (
     <>
-      <header>
+      <HeaderStyle>
         <Link to='/'>
           <h1 style={{ opacity: 1 }} className='title'>
             GET FIT
@@ -29,7 +29,7 @@ const Header = (props) => {
             </div>
           )}
         </nav>
-      </header>
+      </HeaderStyle>
       {showLogin && !showRegister ? (
         <Login
           updateShowRegister={updateShowRegister}
@@ -48,3 +48,29 @@ const Header = (props) => {
    }
  }
  export default connect(mapStateToProps)(Header)
+ const HeaderStyle = styled.header`
+ background: rgba(255, 255, 255, .6);
+  width: 100vw;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10px;
+  position: fixed;
+  z-index: 1;
+.title {
+  opacity: 1;
+  color: black;
+  font-size: 45px;
+  font-family: 'Racing Sans One', cursive;
+}
+.nav-link {
+  margin: 5px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+}
+.nav-link:hover {
+  cursor: pointer;
+  opacity: .6;
+}
+ `
