@@ -5,8 +5,8 @@ import ExListDisp from './ExListDisp'
 const UserExList = (props) => {
 
   var group = props.location.state.group
-  const groupExs = props.userExercises.filter(ex => ex.majormuscle === group)
-
+  const groupExs = props.userExs.filter(ex => ex.majormuscle === group)
+  
   return (
     <main>
       <ExListDisp
@@ -22,7 +22,7 @@ function mapStateToProps(reduxState) {
   return {
     userId: reduxState.userId,
     username: reduxState.username,
-    userExercises: reduxState.userExercises
+    userExs: reduxState.userExercises
   }
 }
 export default connect(mapStateToProps)(UserExList)

@@ -6,7 +6,7 @@ import UserProfile from './UserProfile'
 import {Switch, Route} from 'react-router-dom'
 import UserExList from './UserExList'
 import AddFood from './AddFood'
-import FoodDetails from './FoodDetails'
+// import FoodDetails from './FoodDetails'
 import Inputs from './Inputs/Inputs'
 
 export default (

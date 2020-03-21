@@ -8,18 +8,17 @@ import icons from './icons/Icons'
 class UserProfile extends Component {
   constructor(props) {
     super(props)
-    this.state = { 
+    this.state = {
       meals: []
-     }
-  }
-  
-  userGroup = (gr) => {
-    // const groupExs = this.props.userExs.filter(ex => ex.majormuscle === gr)
-    const location = { pathname: '/user/exList', state: { group: gr } }
-      this.props.history.push(location)
+    }
   }
 
-  render() { 
+  userGroup = gr => {
+    const location = { pathname: '/user/exList', state: { group: gr } }
+    this.props.history.push(location)
+  }
+
+  render() {
     icons()
     return (
       <UserPage>
@@ -113,7 +112,7 @@ class UserProfile extends Component {
     )
   }
 }
- 
+
 function mapStateToProps(reduxState) {
   return {
     userId: reduxState.userId,
@@ -172,8 +171,8 @@ const UserPage = styled.main`
     h3 {
       font-size: 24px;
     }
-        h4 {
-          width: 100px;
-        }
+    h4 {
+      width: 100px;
+    }
   }
 `

@@ -23,10 +23,10 @@ export function clearUser() {
   }
 }
 
-export function updateExs(exs) {
+export function updateExs(data) {
   return {
     type: UPDATE_EXS,
-    payload: {exs}
+    payload: data
   }
 }
 
@@ -37,7 +37,7 @@ export default function reducer(state = initialState, action) {
     case CLEAR_USER:
       return { ...action.payload }
       case UPDATE_EXS:
-        return {...state, userExercises: action.payload.exs}
+        return {...state, userExercises: action.payload}
 
     default:
       return state

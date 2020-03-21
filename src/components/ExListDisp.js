@@ -10,7 +10,7 @@ import icons from './icons/Icons'
 function ExListDisp (props) { 
   icons()
   let {filteredEx, group} = props
-  
+ 
   function goBack() {
     if (props.saved) {
       props.history.push('/profile')

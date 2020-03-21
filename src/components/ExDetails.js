@@ -9,38 +9,14 @@ import icons from './icons/Icons'
 class ExDetails extends Component {
   constructor(props) {
     super(props)
-    const {
-      user_ex_id,
-      ex_id,
-      notes,
-      modifications,
-      reps,
-      sets,
-      hr,
-      min,
-      sec,
-      weight
-    } = this.props.location.state.exercise
     this.state = {
       toDisplay: {},
       group: props.location.state.group,
-      userData: {
-        user_ex_id,
-        ex_id,
-        notes,
-        modifications,
-        reps,
-        sets,
-        weight,
-        hr,
-        min,
-        sec
-      }
+      userData: {}
     }
   }
 
   componentDidMount() {
-    
     if (!this.props.location.state.exercise) {
       axios
         .get(`/api/exercise/${this.props.match.params.id}`)
@@ -48,6 +24,8 @@ class ExDetails extends Component {
           this.setState({ toDisplay: res.data[0] })
         })
         .catch(err => console.log(err))
+    }else {
+      this.setState({ userData: this.props.location.state.exercise })
     }
   }
 
@@ -74,7 +52,9 @@ class ExDetails extends Component {
         ...this.state.userData,
         userId: this.props.userId
       })
-      .then(res => this.props.updateExs(res.data))
+      .then(res => {
+        this.props.updateExs(res.data)
+      })
   }
 
   deleteEx = () => {
@@ -153,7 +133,7 @@ class ExDetails extends Component {
               <textarea
                 name='modifications'
                 onChange={e => this.handleChange(e.target)}
-                value={modifications}
+                value={modifications || ''}
               />
             </div>
             <div className='line-cont'>
@@ -161,7 +141,7 @@ class ExDetails extends Component {
               <textarea
                 name='notes'
                 onChange={e => this.handleChange(e.target)}
-                value={notes}
+                value={notes || ''}
               />
             </div>
             {this.props.userId && (
@@ -170,25 +150,28 @@ class ExDetails extends Component {
                   <div className='line-cont'>
                     <h2>Reps: </h2>
                     <input
+                      type='number'
                       name='reps'
                       onChange={e => this.handleChange(e.target)}
-                      value={reps}
+                      value={reps || 0}
                     />
                   </div>
                   <div className='line-cont'>
                     <h2>Sets: </h2>
                     <input
+                    type='number'
                       name='sets'
                       onChange={e => this.handleChange(e.target)}
-                      value={sets}
+                      value={sets || 0}
                     />
                   </div>
                   <div className='line-cont'>
                     <h2>Weight: </h2>
                     <input
+                    type='number'
                       name='weight'
                       onChange={e => this.handleChange(e.target)}
-                      value={weight}
+                      value={weight || 0}
                     />
                   </div>
                 </div>
@@ -198,7 +181,7 @@ class ExDetails extends Component {
                     <h3>Hr</h3>
                     <select
                       name='hr'
-                      value={hr}
+                      value={hr || 0}
                       onChange={e => this.handleChange(e.target)}>
                       {[...Array(10)].map((el, i) => (
                         <option key={i} value={i}>
@@ -212,7 +195,7 @@ class ExDetails extends Component {
                     <h3>Min</h3>
                     <select
                       name='min'
-                      value={min}
+                      value={min || 0}
                       onChange={e => this.handleChange(e.target)}>
                       {[...Array(59)].map((el, i) => (
                         <option key={i} value={i}>
@@ -226,7 +209,7 @@ class ExDetails extends Component {
                     <h3>Sec</h3>
                     <select
                       name='sec'
-                      value={sec}
+                      value={sec || 0}
                       onChange={e => this.handleChange(e.target)}>
                       {[...Array(59)].map((el, i) => (
                         <option key={i} value={i}>
