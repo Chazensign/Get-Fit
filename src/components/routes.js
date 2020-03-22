@@ -6,7 +6,7 @@ import UserProfile from './UserProfile'
 import {Switch, Route} from 'react-router-dom'
 import UserExList from './UserExList'
 import AddFood from './AddFood'
-// import FoodDetails from './FoodDetails'
+import FoodDetails from './FoodDetails'
 import Inputs from './Inputs/Inputs'
 
 export default (
@@ -19,6 +19,6 @@ export default (
     <Route path='/profile' component={UserProfile} />
     <Route path='/user/exercises/:group' component={UserExList} />
     <Route path='/user/addfood' component={AddFood} />
-    {/* <Route path='/food/details/:foodId' component={FoodDetails} /> */}
+    <Route path='/food/details/:foodId' component={FoodDetails} />
   </Switch>
 )
