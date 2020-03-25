@@ -5,28 +5,35 @@ import { updateExs } from '../ducks/reducer'
 import AppButton from './AppButton'
 import styled from 'styled-components'
 import icons from './icons/Icons'
+import { Redirect } from 'react-router-dom'
 
 class ExDetails extends Component {
   constructor(props) {
     super(props)
     this.state = {
       toDisplay: {},
-      group: props.location.state.group,
+      group: '',
       userData: {}
     }
   }
 
   componentDidMount() {
-    if (!this.props.location.state.exercise) {
-      axios
-        .get(`/api/exercise/${this.props.match.params.id}`)
-        .then(res => {
-          this.setState({ toDisplay: res.data[0] })
-        })
-        .catch(err => console.log(err))
-    }else {
-      this.setState({ userData: this.props.location.state.exercise })
+    if (this.props.location.state === undefined) {
+      return <Redirect to='/' />
     }
+    //   axios
+    //     .get(`/api/exercise/${this.props.match.params.id}`)
+    //     .then(res => {
+    //       this.setState({ toDisplay: res.data[0] })
+    //     })
+    //     .catch(err => console.log(err))
+    // }else {
+      this.setState({
+        userData: this.props.location.state.exercise,
+        group: this.props.location.state.group
+      })
+    // }
+
   }
 
   addExToUser = () => {
@@ -81,6 +88,9 @@ class ExDetails extends Component {
   }
 
   render() {
+    if (this.props.location.state === undefined) {
+      return (<Redirect to='/'/>)
+    }
     const {
       exercise,
       equipment,
@@ -133,7 +143,7 @@ class ExDetails extends Component {
               <textarea
                 name='modifications'
                 onChange={e => this.handleChange(e.target)}
-                value={modifications || ''}
+                value={modifications ? modifications : ''}
               />
             </div>
             <div className='line-cont'>
@@ -141,7 +151,7 @@ class ExDetails extends Component {
               <textarea
                 name='notes'
                 onChange={e => this.handleChange(e.target)}
-                value={notes || ''}
+                value={notes ? notes : ''}
               />
             </div>
             {this.props.userId && (
@@ -149,30 +159,48 @@ class ExDetails extends Component {
                 <div className='workout-info'>
                   <div className='line-cont'>
                     <h2>Reps: </h2>
-                    <input
+                    <select
                       type='number'
                       name='reps'
                       onChange={e => this.handleChange(e.target)}
-                      value={reps || 0}
-                    />
+                      value={reps ? reps : 0}
+                    >
+                      {[...Array(101)].map((el, i) => (
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
+                      ))}
+                      </select>
                   </div>
                   <div className='line-cont'>
                     <h2>Sets: </h2>
-                    <input
-                    type='number'
+                    <select
+                      type='number'
                       name='sets'
                       onChange={e => this.handleChange(e.target)}
-                      value={sets || 0}
-                    />
+                      value={sets ? sets : 0}
+                    >
+                      {[...Array(11)].map((el, i) => (
+                        <option key={i} value={i}>
+                          {i}
+                        </option>
+                      ))}
+                      </select>
                   </div>
                   <div className='line-cont'>
                     <h2>Weight: </h2>
-                    <input
-                    type='number'
+                    <select
+                      type='number'
                       name='weight'
                       onChange={e => this.handleChange(e.target)}
-                      value={weight || 0}
-                    />
+                      value={weight ? weight : 0}
+                    >
+                    {[...Array(81)].map((el, i) => (
+                      <option key={i} value={i}>
+                        {i}
+                      </option>
+                    ))}
+                    </select>
                   </div>
                 </div>
                 <div className='times'>
@@ -181,9 +209,9 @@ class ExDetails extends Component {
                     <h3>Hr</h3>
                     <select
                       name='hr'
-                      value={hr || 0}
+                      value={hr ? hr : 0}
                       onChange={e => this.handleChange(e.target)}>
-                      {[...Array(10)].map((el, i) => (
+                      {[...Array(6)].map((el, i) => (
                         <option key={i} value={i}>
                           {i}
                         </option>
@@ -195,7 +223,7 @@ class ExDetails extends Component {
                     <h3>Min</h3>
                     <select
                       name='min'
-                      value={min || 0}
+                      value={min ? min : 0}
                       onChange={e => this.handleChange(e.target)}>
                       {[...Array(59)].map((el, i) => (
                         <option key={i} value={i}>
@@ -209,7 +237,7 @@ class ExDetails extends Component {
                     <h3>Sec</h3>
                     <select
                       name='sec'
-                      value={sec || 0}
+                      value={sec ? sec : 0}
                       onChange={e => this.handleChange(e.target)}>
                       {[...Array(59)].map((el, i) => (
                         <option key={i} value={i}>

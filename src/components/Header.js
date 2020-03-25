@@ -57,6 +57,8 @@ const Header = (props) => {
   align-items: center;
   padding: 0 10px;
   position: fixed;
+  top: 0;
+  left: 0;
   z-index: 1;
 .title {
   opacity: 1;
