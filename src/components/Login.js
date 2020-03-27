@@ -26,18 +26,25 @@ const userLogin = () => {
     <LoginModal>
       <div className='login-box'>
         <h2>Login</h2>
+        <div>
+        <h3>Email</h3>
         <input
+          className='log-in'
           onChange={e => updateEmail(e.target.value)}
           type='text'
           name='email'
-          placeholder='Email'
+          placeholder='user@site.com'
         />
+        </div>
+        <div>
+        <h3>Password</h3>
         <input
+          className="log-in"
           onChange={e => updatePassword(e.target.value)}
-          type='text'
+          type='password'
           name='password'
-          placeholder='Password'
         />
+        </div>
         <div
           onClick={() => props.updateShowRegister(true)}
           className='register-link'>
@@ -83,19 +90,28 @@ const LoginModal = styled.div`
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  .login-box h2 {
-    text-align: center;
-    font-size: 24px;
-    font-weight: bold;
-  }
-  .login-box input {
-    width: 250px;
+    h2 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+    .log-in {
+      border: 1px inset lightgray;
+      padding-left: 5px;
+      margin: 3px 0 8px 0;
+      font-size: 14px;
+      width: 250px;
+    }
+    div h3 {
+      width: 240px;
+      margin-left: 10px;
+    }
   }
   .register-link {
     color: blue;
   }
   .button-cont {
     display: flex;
+    justify-content: space-between;
   }
 `

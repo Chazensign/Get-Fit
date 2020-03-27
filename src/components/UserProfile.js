@@ -41,13 +41,13 @@ class UserProfile extends Component {
               </div>
               <div
                 className='group-cont'
-                onClick={() => this.userGroup('Shoulders')}>
+                onClick={() => this.userGroup('Shoulder')}>
                 <img
                   className='shoulders'
                   src={window.shoulders}
                   alt='shoulders'
                 />
-                <li>Shoulders</li>
+                <li>Shoulder</li>
               </div>
               <div
                 className='group-cont'

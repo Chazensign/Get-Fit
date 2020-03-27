@@ -11,7 +11,6 @@ import Inputs from './Inputs/Inputs'
 
 export default (
   <Switch>
-    <Route exact path='/' component={Landing} />
     <Route path='/user/exlist' component={UserExList} />
     <Route path='/add/exercise' component={Inputs} />
     <Route path='/exercise/details' component={ExDetails} />
@@ -20,5 +19,6 @@ export default (
     <Route path='/user/exercises/:group' component={UserExList} />
     <Route path='/user/addfood' component={AddFood} />
     <Route path='/food/details/:foodId' component={FoodDetails} />
+    <Route path='/' component={Landing} />
   </Switch>
 )

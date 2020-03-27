@@ -21,7 +21,7 @@ function ExListDisp (props) {
 
   function toExercises() {
     const location = {
-      pathname: `/`,
+      pathname: `/exercises`,
       state: { group: group }
     }
     props.history.push(location)
@@ -130,18 +130,12 @@ const ExListStyle = styled.main`
     font-family: 'Nunito', sans-serif;
     padding: 10px;
   }
-  /* .add-button {
-    position: fixed;
-    top: 55px;
-    right: 10px;
-  } */
   .buttons {
     width: 100%;
     position: absolute;
     bottom: 5px;
     left: 0;
     display: flex;
-    /* align-items: center; */
     justify-content: space-around;
   }
 `

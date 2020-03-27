@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import axios from 'axios'
-import {withRouter} from "react-router-dom"
 import Select from 'react-select'
+import {Route, withRouter, Switch} from "react-router-dom"
 import styled from 'styled-components'
 import ExListDisp from './ExListDisp'
 
@@ -10,12 +10,10 @@ class Landing extends Component {
     super(props)
     this.state = {
       exercises: [],
-      muscle: '',
-      selected: false
+      muscle: ''
     }
   }
   componentDidMount = () => {
-    // if (this.props.location.state) this.setState({ selected: true })
       axios
         .get('/api/all')
         .then(res => {
@@ -23,7 +21,6 @@ class Landing extends Component {
             return this.setState({
               exercises: res.data,
               muscle: this.props.location.state.group,
-              selected: true 
             })
           } else {
             this.setState({
@@ -35,12 +32,12 @@ class Landing extends Component {
   }
   
   submit = (selected, show) => {
-    this.setState({ muscle: selected.value, selected: show })
+    this.setState({ muscle: selected.value }, this.props.history.push('/exercises'))
   }
 
   render() {
 
-    const { exercises, muscle, selected } = this.state
+    const { exercises, muscle } = this.state
     const mappedOpts = exercises
       .map(ex => {
         return { value: ex.majormuscle, label: ex.majormuscle }
@@ -51,20 +48,31 @@ class Landing extends Component {
       
     return (
       <div>
-        {selected ? 
-        <ExListDisp
-          submit={this.submit}
-          filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
-          group={muscle}
-          /> :
-      <LandingPage>
-        <Select
-        className='selectBox'
-          options={mappedOpts}
-          onChange={(e) => this.submit(e, true)}
+        <Switch>
+          <Route
+            exact
+            path='/'
+            render={() => (
+              <LandingPage>
+                <Select
+                  className='selectBox'
+                  options={mappedOpts}
+                  onChange={e => this.submit(e, true)}
+                />
+              </LandingPage>
+            )}
           />
-      </LandingPage>
-        }
+          <Route
+            path='/exercises'
+            render={() => (
+              <ExListDisp
+                submit={this.submit}
+                filteredEx={exercises.filter(ex => ex.majormuscle === muscle)}
+                group={muscle}
+              />
+            )}
+          />
+        </Switch>
       </div>
     )
   }

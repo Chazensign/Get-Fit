@@ -21,19 +21,10 @@ class ExDetails extends Component {
     if (this.props.location.state === undefined) {
       return <Redirect to='/' />
     }
-    //   axios
-    //     .get(`/api/exercise/${this.props.match.params.id}`)
-    //     .then(res => {
-    //       this.setState({ toDisplay: res.data[0] })
-    //     })
-    //     .catch(err => console.log(err))
-    // }else {
       this.setState({
         userData: this.props.location.state.exercise,
         group: this.props.location.state.group
       })
-    // }
-
   }
 
   addExToUser = () => {
@@ -44,7 +35,10 @@ class ExDetails extends Component {
     if (index[0]) return this.submitChange()
     axios
       .post('/api/user/exercises', this.state.userData)
-      .then(res => this.props.updateExs(res.data))
+      .then(res => {
+        this.props.updateExs(res.data)
+        this.props.history.push('/profile')
+      })
   }
 
   handleChange = trg => {

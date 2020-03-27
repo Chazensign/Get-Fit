@@ -1,21 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux'
 import ExListDisp from './ExListDisp'
+import { Redirect } from 'react-router-dom'
 
 const UserExList = (props) => {
+  if (props.location.state === undefined) {
+    return <Redirect to='/' />
+  }
 
-  var group = props.location.state.group
-  const groupExs = props.userExs.filter(ex => ex.majormuscle === group)
-  
-  return (
+  const { group } = props.location.state
+  const { userExs } = props
+
+  return group ? (
     <main>
       <ExListDisp
-        filteredEx={groupExs}
+        filteredEx={userExs.filter(ex => ex.majormuscle === group)}
         userList={true}
         saved={true}
         group={group}
       />
     </main>
+  ) : (
+    <Redirect to='/' />
   )
 }
 function mapStateToProps(reduxState) {

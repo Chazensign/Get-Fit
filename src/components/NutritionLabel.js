@@ -2,29 +2,32 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 
 const NutritionLabel = props => {
-  const { food } = props
+
+  const { food, adjustValues } = props
   const [servings, setServings] = useState(1)
   const [partServing, setPartServings] = useState(0)
+
   return (
     <NutritionStyle>
       <h1 className='n-facts'>Nutrition Facts</h1>
       <hr className='thin-long' />
       <div className='serving grams'>
         <h3>Serving Size</h3>
-        {food.serving_weight_grams && (
           <h3>
             {food.serving_qty} {food.serving_unit}&nbsp;
-            {`(${food.serving_weight_grams})`}
+            ({food.serving_weight_grams})g
           </h3>
-        )}
       </div>
       <div className='serving size'>
         <h3>Servings:&nbsp;</h3>
         <select
-          className='serv-select'
+          className='serv-select whole'
           name='servings'
           value={servings || 0}
-          onChange={e => setServings(e.target.value)}>
+          onChange={e => {
+            setServings(e.target.value)
+            adjustValues(servings + partServing)
+            }}>
           {[...Array(10)].map((el, i) => (
             <option key={i} value={i}>
               {i}
@@ -32,10 +35,13 @@ const NutritionLabel = props => {
           ))}
         </select>
         <select
-          className='serv-select'
+          className='serv-select part'
           name='partServing'
           value={partServing || 0}
-          onChange={e => setPartServings(e.target.value)}>
+          onChange={e => {
+            setPartServings(e.target.value)
+            adjustValues(servings + partServing)
+            }}>
           <option value={0}>0</option>
           <option value={0.125}>1/8</option>
           <option value={0.25}>1/4</option>
@@ -53,7 +59,7 @@ const NutritionLabel = props => {
         <h3 className='cal'>Calories&nbsp;</h3>
         </div>
         <h2 className='cal-num'>
-          {food.nf_calories * (+servings + +partServing)}
+          {Math.round(food.nf_calories * (+servings + +partServing))}
         </h2>
       </div>
       <hr className='thicker-long' />
@@ -62,7 +68,7 @@ const NutritionLabel = props => {
       <div className='macro-line'>
         <div className='m-name-amount'>
           <h3>Total Fat&nbsp;</h3>
-          <p>{food.nf_total_fat * (+servings + +partServing)}g</p>
+          <p>{Math.round(food.nf_total_fat * (+servings + +partServing))}g</p>
         </div>
         <p className='percent'>
           {Math.round(
@@ -74,7 +80,7 @@ const NutritionLabel = props => {
       <hr className='thin-long' />
       <div className='macro-line fats'>
         <p>
-          Saturated Fat {food.nf_saturated_fat * (+servings + +partServing)}g
+          Saturated Fat {Math.round(food.nf_saturated_fat * (+servings + +partServing))}g
         </p>
         <p className='percent'>
           {Math.round(
@@ -87,7 +93,7 @@ const NutritionLabel = props => {
       <div className='macro-line'>
         <div className='m-name-amount'>
           <h3>Cholesterol&nbsp;</h3>
-          <p>{food.nf_cholesterol * (+servings + +partServing)}mg</p>
+          <p>{Math.round(food.nf_cholesterol * (+servings + +partServing))}mg</p>
         </div>
         <p className='percent'>
           {Math.round(
@@ -100,7 +106,7 @@ const NutritionLabel = props => {
       <div className='macro-line'>
         <div className='m-name-amount'>
           <h3>Sodium&nbsp;</h3>
-          <p>{food.nf_sodium * (+servings + +partServing)}mg</p>
+          <p>{Math.round(food.nf_sodium * (+servings + +partServing))}mg</p>
         </div>
 
         <p className='percent'>
@@ -114,7 +120,7 @@ const NutritionLabel = props => {
       <div className='macro-line'>
         <div className='m-name-amount'>
           <h3>Total Carbohydrate&nbsp;</h3>
-          <p>{food.nf_total_carbohydrate * (+servings + +partServing)}g</p>
+          <p>{Math.round(food.nf_total_carbohydrate * (+servings + +partServing))}g</p>
         </div>
         <p className='percent'>
           {Math.round(
@@ -127,7 +133,7 @@ const NutritionLabel = props => {
       <hr className='thin-long' />
       <div className='macro-line carbs'>
         <p>
-          Dietary Fiber {food.nf_dietary_fiber * (+servings + +partServing)}g
+          Dietary Fiber {Math.round(food.nf_dietary_fiber * (+servings + +partServing))}g
         </p>
         <p className='percent'>
           {Math.round(
@@ -138,30 +144,24 @@ const NutritionLabel = props => {
       </div>
       <hr className='thin-long' />
       <div className='macro-line carbs'>
-        <p>Total Sugars {food.nf_sugars * (+servings + +partServing)}g</p>
+        <p>Total Sugars {Math.round(food.nf_sugars * (+servings + +partServing))}g</p>
       </div>
       <hr className='thin-short' />
-      <div className='macro-line sugars'>
-        <p>Includes {food.nf_sugars}g Added Sugars</p>
+      {/* <div className='macro-line sugars'>
+        <p>Includes {food.nf_added_sugars}g Added Sugars</p>
         <p className='percent'>
           {Math.round(
             ((food.nf_sugars * (+servings + +partServing)) / 50) * 100
           )}
           %
         </p>
-      </div>
+      </div> */}
       <hr className='thin-long' />
       <div className='macro-line'>
         <div className='m-name-amount'>
           <h3>Protein&nbsp;</h3>
-          <p>{food.nf_protein * (+servings + +partServing)}g</p>
+          <p>{Math.round(food.nf_protein * (+servings + +partServing))}g</p>
         </div>
-        {/* <p>
-          {Math.round(
-            ((food.nf_protein * (+servings + +partServing)) / 28) * 100
-          )}
-          %
-        </p> */}
       </div>
       <hr className='thickest-long' />
       <hr className='thicker-long' />
@@ -181,14 +181,39 @@ export default NutritionLabel
 
 const NutritionStyle = styled.main`
   max-width: 380px;
-  height: 650px;
-  padding: 5px;
+  /* added more padding to bottom of label */
+  padding: 5px 5px 20px 5px;
   display: flex;
   flex-direction: column;
   background: white;
   border: 1px solid black;
   .serv-select {
-    font-size: 18px;
+    display: block;
+    font-size: 16px;
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    line-height: 1.3;
+    padding: 6px 14px 5px 8px;
+    width: 50px;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin: 5px;
+    border: 1px solid #aaa;
+    box-shadow: 0 1px 0 1px rgba(0, 0, 0, 0.04);
+    border-radius: 0.5em;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23007CB2%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E'),
+      linear-gradient(to bottom, #ffffff 0%, #e5e5e5 100%);
+    background-repeat: no-repeat, repeat;
+    background-position: right 0.7em top 50%, 0 0;
+    background-size: 0.65em auto, 100%;
+    &.part {
+      width: 68px;
+    }
   }
   .n-facts {
     font-size: 42px;
@@ -277,8 +302,7 @@ const NutritionStyle = styled.main`
   }
   .ast {
     width: 12px;
-    padding:  7px 5px;
-
+    padding: 7px 5px;
   }
   .disclaim {
     padding: 5px 0 0 5px;

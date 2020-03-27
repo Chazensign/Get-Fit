@@ -24,6 +24,8 @@ export function clearUser() {
 }
 
 export function updateExs(data) {
+  console.log(data);
+  
   return {
     type: UPDATE_EXS,
     payload: data
