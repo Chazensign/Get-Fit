@@ -44,7 +44,6 @@ const AddFood = () => {
   
   return (
     <AddFoodPage>
-      {/* <div className='head-space' /> */}
       <div className='search-cont'>
       <h2>Search</h2>
       <input
@@ -114,10 +113,6 @@ const AddFoodPage = styled.main`
   background: lightgray;
   height: 100vh;
   padding: 20px;
-  /* .head-space {
-  width: 100%;
-  height: 60px;
-} */
 h2 {
   font-size: 24px;
 }

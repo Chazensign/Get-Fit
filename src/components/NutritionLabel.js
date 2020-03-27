@@ -6,7 +6,7 @@ const NutritionLabel = props => {
   const { food, adjustValues } = props
   const [servings, setServings] = useState(1)
   const [partServing, setPartServings] = useState(0)
-
+console.log(serving)
   return (
     <NutritionStyle>
       <h1 className='n-facts'>Nutrition Facts</h1>
@@ -147,15 +147,6 @@ const NutritionLabel = props => {
         <p>Total Sugars {Math.round(food.nf_sugars * (+servings + +partServing))}g</p>
       </div>
       <hr className='thin-short' />
-      {/* <div className='macro-line sugars'>
-        <p>Includes {food.nf_added_sugars}g Added Sugars</p>
-        <p className='percent'>
-          {Math.round(
-            ((food.nf_sugars * (+servings + +partServing)) / 50) * 100
-          )}
-          %
-        </p>
-      </div> */}
       <hr className='thin-long' />
       <div className='macro-line'>
         <div className='m-name-amount'>

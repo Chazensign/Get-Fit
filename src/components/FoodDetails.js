@@ -47,8 +47,6 @@ const FoodDetails = props => {
   const adjustValues = (servings) => {
     setFood({
       ...food,
-      serving_qty: food.serving_qty * servings,
-      serving_weight_grams: food.serving_weight_grams * servings,
       nf_calories: food.nf_calories * servings,
       nf_total_fat: food.nf_total_fat * servings,
       nf_saturated_fat: food.nf_saturated_fat * servings,
