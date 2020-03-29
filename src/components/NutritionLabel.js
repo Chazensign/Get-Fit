@@ -6,7 +6,7 @@ const NutritionLabel = props => {
   const { food, adjustValues } = props
   const [servings, setServings] = useState(1)
   const [partServing, setPartServings] = useState(0)
-console.log(serving)
+
   return (
     <NutritionStyle>
       <h1 className='n-facts'>Nutrition Facts</h1>

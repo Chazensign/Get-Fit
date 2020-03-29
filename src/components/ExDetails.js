@@ -74,7 +74,7 @@ class ExDetails extends Component {
       }
     } else {
       location = {
-        pathname: '/',
+        pathname: '/exercises',
         state: { group: mM }
       }
     }
@@ -107,8 +107,7 @@ class ExDetails extends Component {
     icons()
     return (
       <DetailStyle>
-        <div className='header-back'></div>
-        <div id={ex_id}>
+        <div>
           <div className='title-icon'>
             <h1>{exercise}</h1>
             <img
@@ -258,7 +257,7 @@ class ExDetails extends Component {
               )}
             </>
           )}
-          <AppButton name='Go Back' onClick={() => this.goBack(majormuscle)} />
+          <AppButton name='Back' onClick={() => this.goBack(majormuscle)} />
         </div>
       </DetailStyle>
     )

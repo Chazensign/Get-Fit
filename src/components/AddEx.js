@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
-import Inputs from '../Inputs/Inputs';
+import Inputs from './Inputs';
 
 class AddEx extends Component {
   constructor(props) {

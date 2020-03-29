@@ -15,7 +15,7 @@ function ExListDisp (props) {
     if (props.saved) {
       props.history.push('/profile')
     } else {
-      props.submit('', false)
+      props.history.push('/')
     }
   }
 
