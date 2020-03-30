@@ -33,22 +33,25 @@ const Register = props => {
           <h3>Email</h3>
           <input
             className='reg-in'
+            name='email'
             onChange={e => updateEmail(e.target.value)}
-            type='password'
+            type='email'
           />
         </div>
         <div>
           <h3>Username</h3>
           <input
             className='reg-in'
+            name='username'
             onChange={e => updateUsername(e.target.value)}
-            type='password'
+            type='text'
           />
         </div>
         <div>
           <h3>Password</h3>
           <input
             className='reg-in'
+            name='password'
             onChange={e => updatePassword(e.target.value)}
             type='password'
           />
@@ -57,6 +60,7 @@ const Register = props => {
           <h3>Confirm Password</h3>
           <input
             className='reg-in'
+            name='password2'
             onChange={e => updatePassword2(e.target.value)}
             type='password'
           />

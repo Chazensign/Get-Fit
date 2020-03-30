@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import AppButton from './AppButton'
+import SetRepsWeight from './SetRepsWeight'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateExs } from '../ducks/reducer'
-import Select from 'react-select'
 import styled from 'styled-components'
+import Times from './Times'
 
 class Inputs extends Component {
   constructor(props) {
@@ -13,15 +14,15 @@ class Inputs extends Component {
       checked: false,
       exercise: '',
       equipment: '',
-      exercisetype: '',
+      exercisetype: 'weight',
       majormuscle: this.props.location.state.group,
       minormuscle: '',
       example: '',
       notes: '',
       modifications: '',
-      reps: '',
-      sets: '',
-      weight: '',
+      reps: 0,
+      sets: 0,
+      weight: 0,
       hr: 0,
       min: 0,
       sec: 0
@@ -29,7 +30,7 @@ class Inputs extends Component {
   }
 
   handleChange = (trg) => {
-    this.setState({ [trg.label]: trg.value })
+    this.setState({ [trg.name]: trg.value })
   }
   submitEx = () => {
     if (this.props.userId) {
@@ -75,14 +76,6 @@ class Inputs extends Component {
    return (
      <NewExStyle className='edit-box'>
        <form>
-         <label htmlFor='toUser'>Add to my exercises:</label>
-         <input
-           type='checkbox'
-           id='toUser'
-           name='toUser'
-           value={true}
-           onClick={() => this.setState({ checked: !checked })}
-         /><br/>
          <label htmlFor='name'>Exercise Name</label>
          <input
            id='name'
@@ -107,10 +100,9 @@ class Inputs extends Component {
            name='exercisetype'
            onChange={e => this.handleChange(e.target)}
            value={exercisetype}
-           required={true}
-         >
-           <option value="Weight">Weight</option>
-           <option value="Cario">Cardio</option>
+           required={true}>
+           <option value='Weight'>Weight</option>
+           <option value='Cario'>Cardio</option>
          </select>
          <label htmlFor='group'>Muscle Group</label>
          <select
@@ -121,10 +113,10 @@ class Inputs extends Component {
            value={majormuscle}
            required={true}>
            <option value='Chest'>Chest</option>
-           <option value='Back' >Back</option>
-           <option value='Shoulder' >Shoulder</option>
-           <option value='Arms' >Arms</option>
-           <option value='Legs' >Legs</option>
+           <option value='Back'>Back</option>
+           <option value='Shoulder'>Shoulder</option>
+           <option value='Arms'>Arms</option>
+           <option value='Legs'>Legs</option>
            <option value='Core'>Core</option>
          </select>
          <label htmlFor='minor'>Minor Muscle</label>
@@ -161,53 +153,18 @@ class Inputs extends Component {
            onChange={e => this.handleChange(e.target)}
            value={modifications || ''}
          />
+         <label htmlFor='toUser'>Add to my exercises:</label>
+         <input
+           type='checkbox'
+           id='toUser'
+           name='toUser'
+           onClick={() => this.setState({ checked: !checked })}
+         />
          {this.state.checked && (
            <>
-             <div className='workout-info'>
-               <div className='line-cont'>
-                 <h2>Reps: </h2>
-                 <select
-                   type='number'
-                   name='reps'
-                   onChange={e => this.handleChange(e.target)}
-                   value={reps ? reps : 0}>
-                   {[...Array(101)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-               <div className='line-cont'>
-                 <h2>Sets: </h2>
-                 <select
-                   type='number'
-                   name='sets'
-                   onChange={e => this.handleChange(e.target)}
-                   value={sets ? sets : 0}>
-                   {[...Array(11)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-               <div className='line-cont'>
-                 <h2>Weight: </h2>
-                 <select
-                   type='number'
-                   name='weight'
-                   onChange={e => this.handleChange(e.target)}
-                   value={weight ? weight : 0}>
-                   {[...Array(81)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-             </div>
-             <div className='times'>
+             <SetRepsWeight state={(sets, reps, weight)} />
+             <Times handleChange={this.handleChange} times={(hr, min, sec)} />
+             {/* <div className='times'>
                <h2 className='time'>Time:</h2>
                <div className='time-and-title'>
                  <h3>Hr</h3>
@@ -250,17 +207,17 @@ class Inputs extends Component {
                    ))}
                  </select>
                </div>
-             </div>
+             </div> */}
            </>
          )}
        </form>
-       <div className='button-cont' >
+       <div className='button-cont'>
          <AppButton
            name='Submit'
            type='button'
-           onClick={() => this.submitEx()}
+           onClick={this.submitEx}
          />
-         <AppButton name='Cancel' />
+         <AppButton name='Cancel' onClick={() => this.props.history.push('/exercises', {group: this.props.location.state.group})} />
        </div>
      </NewExStyle>
    )
@@ -278,7 +235,7 @@ export default connect(mapStateToProps, {updateExs})(Inputs);
 const NewExStyle = styled.main`
   display: flex;
   flex-direction: column;
-  background: rgb(66, 66, 69);
+  background: lightgray;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -328,6 +285,9 @@ const NewExStyle = styled.main`
     background-repeat: no-repeat, repeat;
     background-position: right 0.7em top 50%, 0 0;
     background-size: 0.65em auto, 100%;
+  }
+  #type {
+    width: 200px;
   }
   .workout-info {
     display: flex;

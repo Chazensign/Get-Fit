@@ -6,6 +6,8 @@ import AppButton from './AppButton'
 import styled from 'styled-components'
 import icons from './icons/Icons'
 import { Redirect } from 'react-router-dom'
+import SetRepsWeight from './SetRepsWeight'
+import Times from './Times'
 
 class ExDetails extends Component {
   constructor(props) {
@@ -149,97 +151,11 @@ class ExDetails extends Component {
             </div>
             {this.props.userId && (
               <>
-                <div className='workout-info'>
-                  <div className='line-cont'>
-                    <h2>Reps: </h2>
-                    <select
-                      type='number'
-                      name='reps'
-                      onChange={e => this.handleChange(e.target)}
-                      value={reps ? reps : 0}
-                    >
-                      {[...Array(101)].map((el, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                      </select>
-                  </div>
-                  <div className='line-cont'>
-                    <h2>Sets: </h2>
-                    <select
-                      type='number'
-                      name='sets'
-                      onChange={e => this.handleChange(e.target)}
-                      value={sets ? sets : 0}
-                    >
-                      {[...Array(11)].map((el, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                      </select>
-                  </div>
-                  <div className='line-cont'>
-                    <h2>Weight: </h2>
-                    <select
-                      type='number'
-                      name='weight'
-                      onChange={e => this.handleChange(e.target)}
-                      value={weight ? weight : 0}
-                    >
-                    {[...Array(81)].map((el, i) => (
-                      <option key={i} value={i}>
-                        {i}
-                      </option>
-                    ))}
-                    </select>
-                  </div>
-                </div>
-                <div className='times'>
-                  <h2 className='time'>Time:</h2>
-                  <div className='time-and-title'>
-                    <h3>Hr</h3>
-                    <select
-                      name='hr'
-                      value={hr ? hr : 0}
-                      onChange={e => this.handleChange(e.target)}>
-                      {[...Array(6)].map((el, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <h3>:</h3>
-                  <div className='time-and-title'>
-                    <h3>Min</h3>
-                    <select
-                      name='min'
-                      value={min ? min : 0}
-                      onChange={e => this.handleChange(e.target)}>
-                      {[...Array(59)].map((el, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                  <h3>:</h3>
-                  <div className='time-and-title'>
-                    <h3>Sec</h3>
-                    <select
-                      name='sec'
-                      value={sec ? sec : 0}
-                      onChange={e => this.handleChange(e.target)}>
-                      {[...Array(59)].map((el, i) => (
-                        <option key={i} value={i}>
-                          {i}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
+                <SetRepsWeight
+                  handleChange={this.handleChange}
+                  state={{ sets, reps, weight }}
+                />
+                <Times handleChange={this.handleChange} times={{ hr, min, sec }}/>
               </>
             )}
           </dl>
@@ -312,13 +228,13 @@ const DetailStyle = styled.div`
       margin: 10px 0 0 10px;
       border-radius: 3px;
     }
-  }
-  h2 {
-    padding: 8px 0 0 8px;
-    margin-left: 10px;
-    font-size: 20px;
-    font-weight: 400;
-    font-family: 'Racing Sans One', cursive;
+    h2 {
+      padding: 8px 0 0 8px;
+      margin-left: 10px;
+      font-size: 20px;
+      font-weight: 400;
+      font-family: 'Racing Sans One', cursive;
+    }
   }
   .notes,
   .modifications {
@@ -359,10 +275,6 @@ const DetailStyle = styled.div`
     font-family: 'Racing Sans One', cursive;
     text-decoration: underline;
   }
-  section {
-    display: flex;
-    flex-direction: column;
-  }
   span {
     padding: 14px 0 0 10px;
     font-size: 14px;
@@ -377,15 +289,6 @@ const DetailStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-around;
-  }
-  .times {
-    display: flex;
-    align-items: center;
-    font-family: 'Nunito', sans-serif;
-    margin: 10px;
-    .time {
-      margin-right: 10px;
-    }
   }
   details {
     display: flex;
