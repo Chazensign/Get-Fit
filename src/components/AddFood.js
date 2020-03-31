@@ -64,9 +64,9 @@ const AddFood = () => {
       </div>
       <div className='all-results'>
         <h2>Brands</h2>
-        {brandRes.map(brand => {
+        {brandRes.map((brand, i) => {
           return (
-            <div className='brand-res'>
+            <div className='brand-res' key={i}>
               <h3
                 onClick={() => {
                   setBrandId(brand.nix_brand_id)
@@ -80,9 +80,10 @@ const AddFood = () => {
           )
         })}
         <h2>Foods</h2>
-        {commonRes.map(food => {
+        {commonRes.map((food, i)=> {
           return (
             <Link
+            key={i}
               to={`/food/details/${food.nix_item_id}`}
               className='brand-res'>
               <h4>{food.food_name}</h4>

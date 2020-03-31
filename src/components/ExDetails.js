@@ -96,7 +96,6 @@ class ExDetails extends Component {
       example
     } = this.props.location.state.exercise
     const {
-      ex_id,
       notes,
       modifications,
       reps,

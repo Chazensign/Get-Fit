@@ -1,4 +1,5 @@
 module.exports = {
+  
   returnAll: async (req, res) => {
     const db = await req.app.get('db')
     const exercises = await db.get_all_exercises()
@@ -8,17 +9,6 @@ module.exports = {
       res.sendStatus(500)
     }
   },
-
-  // getUserExercises: async (req, res) => {
-  //   const { user, group } = req.query
-  //   const db = await req.app.get('db')
-  //   const userExs = await db.get_user_exs(user, group)
-  //   if (userExs[0]) {
-  //     res.status(200).send(userExs)
-  //   }else {
-  //     res.sendStatus(500)
-  //   }
-  // },
 
   addToUser: async (req, res) => {
     const { userId } = req.session.user

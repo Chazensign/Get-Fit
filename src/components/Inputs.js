@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import AppButton from './AppButton'
 import SetRepsWeight from './SetRepsWeight'
+import Times from './Times'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { updateExs } from '../ducks/reducer'
 import styled from 'styled-components'
-import Times from './Times'
 
 class Inputs extends Component {
   constructor(props) {
@@ -37,6 +37,7 @@ class Inputs extends Component {
     axios
     .post('/api/add/exercise', this.state)
     .then(res => {
+      console.log(res)
       if (this.state.checked) {
       this.props.updateExs(res.data.userExs)
       const location = {
@@ -83,7 +84,7 @@ class Inputs extends Component {
            type='text'
            onChange={e => this.handleChange(e.target)}
            value={exercise}
-           required={true}
+           required
          />
          <label htmlFor='equip'>Equipment</label>
          <input
@@ -92,7 +93,7 @@ class Inputs extends Component {
            type='text'
            onChange={e => this.handleChange(e.target)}
            value={equipment}
-           required={true}
+           required
          />
          <label htmlFor='type'>Exercise Type</label>
          <select
@@ -100,7 +101,7 @@ class Inputs extends Component {
            name='exercisetype'
            onChange={e => this.handleChange(e.target)}
            value={exercisetype}
-           required={true}>
+           required>
            <option value='Weight'>Weight</option>
            <option value='Cario'>Cardio</option>
          </select>
@@ -111,7 +112,7 @@ class Inputs extends Component {
            name='majormuscle'
            onChange={e => this.handleChange(e.target)}
            value={majormuscle}
-           required={true}>
+           required>
            <option value='Chest'>Chest</option>
            <option value='Back'>Back</option>
            <option value='Shoulder'>Shoulder</option>
@@ -135,7 +136,7 @@ class Inputs extends Component {
            onChange={e => this.handleChange(e.target)}
            placeholder='GIF URL'
            value={example || ''}
-           required={true}
+           required
          />
          <label htmlFor='notes'>Notes</label>
          <input
@@ -162,52 +163,8 @@ class Inputs extends Component {
          />
          {this.state.checked && (
            <>
-             <SetRepsWeight state={(sets, reps, weight)} />
+             <SetRepsWeight handleChange={this.handleChange} state={{sets, reps, weight}} />
              <Times handleChange={this.handleChange} times={(hr, min, sec)} />
-             {/* <div className='times'>
-               <h2 className='time'>Time:</h2>
-               <div className='time-and-title'>
-                 <h3>Hr</h3>
-                 <select
-                   name='hr'
-                   value={hr ? hr : 0}
-                   onChange={e => this.handleChange(e.target)}>
-                   {[...Array(6)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-               <h3>:</h3>
-               <div className='time-and-title'>
-                 <h3>Min</h3>
-                 <select
-                   name='min'
-                   value={min ? min : 0}
-                   onChange={e => this.handleChange(e.target)}>
-                   {[...Array(59)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-               <h3>:</h3>
-               <div className='time-and-title'>
-                 <h3>Sec</h3>
-                 <select
-                   name='sec'
-                   value={sec ? sec : 0}
-                   onChange={e => this.handleChange(e.target)}>
-                   {[...Array(59)].map((el, i) => (
-                     <option key={i} value={i}>
-                       {i}
-                     </option>
-                   ))}
-                 </select>
-               </div>
-             </div> */}
            </>
          )}
        </form>

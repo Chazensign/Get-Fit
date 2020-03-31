@@ -11,6 +11,7 @@ const FoodDetails = props => {
 
   const [isBrand, setIsBrand] = useState(false)
   const [meal, setMeal] = useState()
+  const [userValues, setUserValues] = useState([])
   const [food, setFood] = useState({
     brand_name: '',
     serving_unit: '',
@@ -27,30 +28,32 @@ const FoodDetails = props => {
     nf_protein: 0
   })
 
-  // useEffect(() => {
-  //   axios({
-  //     url: `https://trackapi.nutritionix.com/v2/search/item?nix_item_id=${props.match.params.foodId}`,
-  //     method: 'get',
-  //     headers: {
-  //       'x-app-id': process.env.REACT_APP_NUT_ID,
-  //       'x-app-key': process.env.REACT_APP_NUT_KEY
-  //     }
-  //   }).then(res => {
-  //     setFood(res.data.foods[0])
-  //     if (res.data.foods[0].brand_name) {
-  //       setIsBrand(true)
-  //     }
-  //     console.log(res.data.foods[0])
-  //   })
-  // }, [props.match.params.foodId])
+  useEffect(() => {
+    axios({
+      url: `https://trackapi.nutritionix.com/v2/search/item?nix_item_id=${props.match.params.foodId}`,
+      method: 'get',
+      headers: {
+        'x-app-id': process.env.REACT_APP_NUT_ID,
+        'x-app-key': process.env.REACT_APP_NUT_KEY
+      }
+    }).then(res => {
+      setFood(res.data.foods[0])
+      setUserValues(res.data.foods[0])
+      if (res.data.foods[0].brand_name) {
+        setIsBrand(true)
+      }
+      console.log(res.data.foods[0])
+    })
+  }, [props.match.params.foodId])
 
   const adjustValues = (servings) => {
-    setFood({
+    
+    setUserValues({
       ...food,
       nf_calories: food.nf_calories * servings,
       nf_total_fat: food.nf_total_fat * servings,
       nf_saturated_fat: food.nf_saturated_fat * servings,
-      nf_cholesterol: food.nf_colesterol * servings,
+      nf_cholesterol: food.nf_cholesterol * servings,
       nf_sodium: food.nf_sodium * servings,
       nf_total_carbohydrate: food.nf_total_carbohydrate * servings,
       nf_dietary_fiber: food.nf_dietary_fiber * servings,
@@ -66,10 +69,10 @@ const FoodDetails = props => {
   return food ? (
     <FoodDetailStyle>
       {isBrand && <h2>{food.brand_name}</h2>}<h3>{food.food_name}</h3>
-      <NutritionLabel food={food} adjustValues={adjustValues}/>
+      <NutritionLabel food={userValues} adjustValues={adjustValues}/>
       <Select 
       options={[{label: 'Breakfast', value: 'Breakfast'}, {label: 'Lunch', value: 'Lunch'}, { label: 'Dinner', value: 'Dinner'}, {label: 'Snack', value: 'Snack'}]}
-      onChange={e => setMeal(e.target.value)}
+      onChange={setMeal}
       />
       <AppButton name='Save' onClick={() => saveFood()}/>
       <AppButton name='Back' />
