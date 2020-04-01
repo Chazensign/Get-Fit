@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs')
+const Mailer = require('./Mailer')
 
 module.exports = {
   register: async (req, res) => {
@@ -33,5 +34,15 @@ module.exports = {
   },
   userLogOut: (req, res) => {
     req.session.destroy()
+  },
+  resetPassword: (req, res) => {
+    const { email, password } = req.body
+    const db = req.app.get('db')
+    const foundUser = await db.get_user(email)
+    const user = foundUser[0]
+    if (!user) {
+      res.status(406).send( 'No user by that email.' )
+    }
+    Mailer(email)
   }
 }

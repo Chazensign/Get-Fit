@@ -11,11 +11,20 @@ const AddFood = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [brandId, setBrandId] = useState('')
   const [showScan, setScan] = useState(false)
+  const [waiting, setWaiting] = useState(false)
 
   const getResults = (searchVal) => {
+    console.log(waiting)
+    
     setSearchTerm(searchVal)
+    if (waiting) {
+      return setTimeout(() => {
+        getResults(searchTerm)
+      }, 0)
+    }
+    setWaiting(true)
     axios({
-      url: `https://trackapi.nutritionix.com/v2/search/instant?query=${searchTerm}${
+      url: `https://trackapi.nutritionix.com/v2/search/instant?query=${searchVal}${
         brandId ? `&brand_ids=${brandId}` : ''
       }&self=true&branded_region=1&branded=true&common=true&common_general=true&common_grocery=true&common_restaurant=true&locale=en_US&detailed=false&claims=false`,
       method: 'get',
@@ -26,7 +35,7 @@ const AddFood = () => {
     })
       .then(res => {
         console.log(res.data)
-        
+        setWaiting(false)
         if (brandId) {
           setCommonResults(res.data.branded)
         } else {

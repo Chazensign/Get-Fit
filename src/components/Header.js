@@ -9,6 +9,11 @@ const Header = (props) => {
 
   const [showLogin, updateShowLogin] = useState(false)
   const [showRegister, updateShowRegister] = useState(false)
+  const [resetPassword, setResetPassword] = useState(false)
+
+  const showModal = () => {
+
+  }
 
   return (
     <>
@@ -30,13 +35,9 @@ const Header = (props) => {
           )}
         </nav>
       </HeaderStyle>
-      {showLogin && !showRegister ? (
-        <Login
-          updateShowRegister={updateShowRegister}
-          updateShowLogin={updateShowLogin}
-        />
-      ) : (
-        showRegister && <Register updateShowRegister={updateShowRegister} />
+      {showLogin && <Login showModal={showModal} />}
+        {showRegister && <Register showModal={showModal} />}
+        {resetPassword && <></> }
       )}
     </>
   )

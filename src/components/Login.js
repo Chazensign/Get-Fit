@@ -10,6 +10,7 @@ const Login = (props) => {
 
   const [email, updateEmail] = useState('')
   const [password, updatePassword] = useState('')
+  const [resetPassword, setResetPassword] = useState(false)
 
 const userLogin = () => {
   axios.post('/api/user', { email, password })
@@ -27,35 +28,39 @@ const userLogin = () => {
       <div className='login-box'>
         <h2>Login</h2>
         <div>
-        <h3>Email</h3>
-        <input
-          className='log-in'
-          onChange={e => updateEmail(e.target.value)}
-          type='text'
-          name='email'
-          placeholder='user@site.com'
-        />
+          <h3>Email</h3>
+          <input
+            className='log-in'
+            onChange={e => updateEmail(e.target.value)}
+            type='text'
+            name='email'
+            placeholder='user@site.com'
+          />
         </div>
         <div>
-        <h3>Password</h3>
-        <input
-          className="log-in"
-          onChange={e => updatePassword(e.target.value)}
-          type='password'
-          name='password'
-        />
+          <h3>Password</h3>
+          <input
+            className='log-in'
+            onChange={e => updatePassword(e.target.value)}
+            type='password'
+            name='password'
+          />
         </div>
-        <div
+        <a
+          href='register'
           onClick={() => props.updateShowRegister(true)}
           className='register-link'>
           To Register Click Here
-        </div>
+        </a>
+        <a
+          href='reset password'
+          onClick={() => props.setResetPassword(true)}
+          className='register-link'>
+          Forgot Password?
+        </a>
         <div className='button-cont'>
           <AppButton name='Submit' onClick={userLogin} />
-          <AppButton
-            name='Cancel'
-            onClick={() => props.updateShowLogin()}
-          />
+          <AppButton name='Cancel' onClick={() => props.updateShowLogin()} />
         </div>
       </div>
     </LoginModal>
