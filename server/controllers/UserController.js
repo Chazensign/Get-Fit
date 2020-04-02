@@ -35,14 +35,26 @@ module.exports = {
   userLogOut: (req, res) => {
     req.session.destroy()
   },
-  resetPassword: (req, res) => {
-    const { email, password } = req.body
+  resetPassword: async (req, res) => {
+    const { email } = req.body
     const db = req.app.get('db')
     const foundUser = await db.get_user(email)
     const user = foundUser[0]
     if (!user) {
       res.status(406).send( 'No user by that email.' )
     }
-    Mailer(email)
+    const {user_id, username, password } = user
+    var tempPassword = Math.random().toString(36).slice(-8)
+    const tempUserInfo = await db.alter_user(user_id, username, email, password, tempPassword)
+    if (tempUserInfo[0]) {
+   
+      
+      Mailer.sendMail(tempUserInfo[0])
+      .then((result) => res.status(200).send(result))
+      .catch(err => res.status(500).send(err))
+    }else {
+      res.status(500).send({message: 'Something went wrong.'})
+    }
+
   }
 }

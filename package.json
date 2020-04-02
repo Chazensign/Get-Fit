@@ -9,6 +9,7 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^8.2.0",
     "express-session": "^1.17.0",
+    "googleapis": "^48.0.0",
     "jquery": "^3.4.1",
     "massive": "^6.1.4",
     "nodemailer": "^6.4.6",

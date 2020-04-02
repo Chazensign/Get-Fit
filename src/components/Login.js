@@ -1,68 +1,75 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
 import { setUser } from '../ducks/reducer'
 import { connect } from 'react-redux'
-import { useState } from 'react'
 import AppButton from './AppButton'
 
-const Login = (props) => {
-
+const Login = props => {
   const [email, updateEmail] = useState('')
   const [password, updatePassword] = useState('')
-  const [resetPassword, setResetPassword] = useState(false)
 
-const userLogin = () => {
-  axios.post('/api/user', { email, password })
-  .then(res => {
-    props.setUser(res.data)
-    updateEmail('')
-    updatePassword('')
-    props.updateShowLogin()
-  })
-  .catch(err => alert(err.request.responseText))
-}
+  const userLogin = () => {
+    const check = document.getElementById('login-form').checkValidity()
+    if (check) {
+      axios
+        .post('/api/user', { email, password })
+        .then(res => {
+          props.setUser(res.data)
+          updateEmail('')
+          updatePassword('')
+          props.showModal()
+        })
+        .catch(err => alert(err.request.responseText))
+    }
+  }
 
   return (
     <LoginModal>
-      <div className='login-box'>
+        <form id='login-form' className='login-box'>
         <h2>Login</h2>
-        <div>
-          <h3>Email</h3>
-          <input
-            className='log-in'
-            onChange={e => updateEmail(e.target.value)}
-            type='text'
-            name='email'
-            placeholder='user@site.com'
-          />
-        </div>
-        <div>
-          <h3>Password</h3>
-          <input
-            className='log-in'
-            onChange={e => updatePassword(e.target.value)}
-            type='password'
-            name='password'
-          />
-        </div>
-        <a
-          href='register'
-          onClick={() => props.updateShowRegister(true)}
-          className='register-link'>
-          To Register Click Here
-        </a>
-        <a
-          href='reset password'
-          onClick={() => props.setResetPassword(true)}
-          className='register-link'>
-          Forgot Password?
-        </a>
-        <div className='button-cont'>
-          <AppButton name='Submit' onClick={userLogin} />
-          <AppButton name='Cancel' onClick={() => props.updateShowLogin()} />
-        </div>
-      </div>
+          <div>
+            <h3>Email</h3>
+            <input
+              required
+              className='log-in'
+              onChange={e => updateEmail(e.target.value)}
+              type='email'
+              name='email'
+              placeholder='user@site.com'
+            />
+          </div>
+          <div>
+            <h3>Password</h3>
+            <input
+              required
+              className='log-in'
+              onChange={e => updatePassword(e.target.value)}
+              type='password'
+              name='password'
+            />
+          </div>
+          <a
+            href='register'
+            onClick={e => {
+              props.showModal('reg', e)
+            }}
+            className='register-link'>
+            To Register Click Here
+          </a>
+          <a
+            href='reset password'
+            onClick={e => {
+              props.showModal('pass', e)
+            }}
+            className='register-link'>
+            Forgot Password?
+          </a>
+          <div className='button-cont'>
+            <AppButton name='Submit' onClick={userLogin} />
+            <AppButton name='Cancel' onClick={e => props.showModal(null, e)} />
+          </div>
+        </form>
     </LoginModal>
   )
 }

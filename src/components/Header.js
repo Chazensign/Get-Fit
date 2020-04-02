@@ -4,15 +4,22 @@ import Login from './Login'
 import { connect } from 'react-redux'
 import Register from './Register'
 import styled from 'styled-components'
+import ResetPassword from './ResetPassword'
 
 const Header = (props) => {
 
-  const [showLogin, updateShowLogin] = useState(false)
-  const [showRegister, updateShowRegister] = useState(false)
-  const [resetPassword, setResetPassword] = useState(false)
+  const [showLogin, setShowLogin] = useState(false)
+  const [showRegister, setShowRegister] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
-  const showModal = () => {
-
+  const showModal = (modal, e) => {
+    e.preventDefault()
+    setShowPassword()
+    setShowRegister()
+    setShowLogin()
+    if (modal === 'pass') setShowPassword(prevState => !prevState)
+    else if (modal === 'reg') setShowRegister(prevState => !prevState)
+    else if (modal === 'log') setShowLogin(prevState => !prevState)
   }
 
   return (
@@ -29,16 +36,16 @@ const Header = (props) => {
               <div className='nav-link'>{props.username}</div>
             </Link>
           ) : (
-            <div className='nav-link' onClick={() => updateShowLogin(true)}>
+            <div className='nav-link' onClick={(e) => showModal('log', e)}>
               Login/Register
             </div>
           )}
         </nav>
+      {showLogin ? <Login showModal={showModal}/> : null }
+        {showRegister ? <Register showModal={showModal}/> : null }
+        {showPassword ? <ResetPassword showModal={showModal}/> : null }
       </HeaderStyle>
-      {showLogin && <Login showModal={showModal} />}
-        {showRegister && <Register showModal={showModal} />}
-        {resetPassword && <></> }
-      )}
+      
     </>
   )
 }

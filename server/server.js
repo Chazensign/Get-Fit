@@ -28,6 +28,7 @@ app.delete('/api/exercise/:id', exCtrl.removeUserEx)
 app.post('/api/register', userCtrl.register)
 app.post('/api/user', userCtrl.userLogin)
 app.delete('/api/user', userCtrl.userLogOut)
+app.post('/api/user/password', userCtrl.resetPassword)
 app.post('/api/user/food', foodCtrl.addFood)
 
 

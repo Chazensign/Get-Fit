@@ -10,28 +10,32 @@ const Register = props => {
   const [password, updatePassword] = useState('')
   const [password2, updatePassword2] = useState('')
 
-  const registerUser = () => {
+  const registerUser = (e) => {
+    const check = document.getElementById('register-form').checkValidity()
+    if (check) {
     if (password === password2) {
       axios
         .post('/api/register', { email, username, password })
         .then(res => {
           alert('Account created, you have been logged in.')
           setUser(res.data)
-          props.updateShowRegister(false)
+          props.showModal(null, e)
         })
         .catch(err => console.log(err))
     } else {
       alert("Passwords don't match.")
     }
+    }
   }
 
   return (
     <RegisterView>
-      <div className='register-box'>
+      <form id='register-form' className='register-box'>
         <h2>Register</h2>
         <div>
           <h3>Email</h3>
           <input
+            required
             className='reg-in'
             name='email'
             onChange={e => updateEmail(e.target.value)}
@@ -41,6 +45,7 @@ const Register = props => {
         <div>
           <h3>Username</h3>
           <input
+            required
             className='reg-in'
             name='username'
             onChange={e => updateUsername(e.target.value)}
@@ -50,6 +55,7 @@ const Register = props => {
         <div>
           <h3>Password</h3>
           <input
+            required
             className='reg-in'
             name='password'
             onChange={e => updatePassword(e.target.value)}
@@ -59,6 +65,7 @@ const Register = props => {
         <div>
           <h3>Confirm Password</h3>
           <input
+            required
             className='reg-in'
             name='password2'
             onChange={e => updatePassword2(e.target.value)}
@@ -66,13 +73,10 @@ const Register = props => {
           />
         </div>
         <div className='button-cont'>
-          <AppButton name='Register' onClick={registerUser} />
-          <AppButton
-            name='Cancel'
-            onClick={() => props.updateShowRegister(false)}
-          />
+          <AppButton name='Register' onClick={e => registerUser(e)} />
+          <AppButton name='Cancel' onClick={e => props.showModal(null, e)} />
         </div>
-      </div>
+      </form>
     </RegisterView>
   )
 }
