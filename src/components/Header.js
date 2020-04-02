@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom'
 import Login from './Login'
 import { connect } from 'react-redux'
+import { setLoading, setUser } from '../ducks/reducer'
+import LoadingModal from './LoadingModal'
 import Register from './Register'
 import styled from 'styled-components'
 import ResetPassword from './ResetPassword'
@@ -36,26 +38,41 @@ const Header = (props) => {
               <div className='nav-link'>{props.username}</div>
             </Link>
           ) : (
-            <div className='nav-link' onClick={(e) => showModal('log', e)}>
+            <div className='nav-link' onClick={e => showModal('log', e)}>
               Login/Register
             </div>
           )}
         </nav>
-      {showLogin ? <Login showModal={showModal}/> : null }
-        {showRegister ? <Register showModal={showModal}/> : null }
-        {showPassword ? <ResetPassword showModal={showModal}/> : null }
+        {showLogin && (
+          <Login
+            setLoading={props.setLoading}
+            setUser={props.setUser}
+            showModal={showModal}
+          />
+        )}
+        {showRegister && (
+          <Register
+            setLoading={props.setLoading}
+            setUser={props.setUser}
+            showModal={showModal}
+          />
+        )}
+        {showPassword && (
+          <ResetPassword setLoading={props.setLoading} showModal={showModal} />
+        )}
       </HeaderStyle>
-      
+      {props.loading && <LoadingModal />}
     </>
   )
 }
  function mapStateToProps(reduxState) {
    return {
      userId: reduxState.userId,
-     username: reduxState.username
+     username: reduxState.username,
+     loading: reduxState.loading
    }
  }
- export default connect(mapStateToProps)(Header)
+ export default connect(mapStateToProps, {setLoading, setUser})(Header)
  const HeaderStyle = styled.header`
  background: rgba(255, 255, 255, .6);
   width: 100vw;

@@ -12,6 +12,7 @@ module.exports = {
     const salt = bcrypt.genSaltSync(10)
     const hash = bcrypt.hashSync(password, salt)
     const newUser = await db.add_user(email, username, hash)
+    if (newUser[0])
     res.status(200).send(newUser)
   },
   userLogin: async (req, res) => {

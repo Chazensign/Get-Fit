@@ -1,30 +1,35 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { setUser } from '../ducks/reducer'
 import AppButton from './AppButton'
 
 const Register = props => {
-  const [email, updateEmail] = useState('')
-  const [username, updateUsername] = useState('')
-  const [password, updatePassword] = useState('')
-  const [password2, updatePassword2] = useState('')
+  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [password2, setPassword2] = useState('')
 
-  const registerUser = (e) => {
+  const registerUser = e => {
     const check = document.getElementById('register-form').checkValidity()
     if (check) {
-    if (password === password2) {
-      axios
-        .post('/api/register', { email, username, password })
-        .then(res => {
-          alert('Account created, you have been logged in.')
-          setUser(res.data)
-          props.showModal(null, e)
-        })
-        .catch(err => console.log(err))
-    } else {
-      alert("Passwords don't match.")
-    }
+      if (password === password2) {
+        props.setLoading(true)
+        axios
+          .post('/api/register', { email, username, password })
+          .then(res => {
+            alert('Account created, you have been logged in.')
+            props.setUser(res.data)
+            setEmail()
+            setUsername()
+            setPassword()
+            setPassword2()
+            props.setLoading(false)
+            props.showModal(null, e)
+          })
+          .catch(err => console.log(err))
+      } else {
+        alert("Passwords don't match.")
+      }
     }
   }
 
@@ -38,7 +43,7 @@ const Register = props => {
             required
             className='reg-in'
             name='email'
-            onChange={e => updateEmail(e.target.value)}
+            onChange={e => setEmail(e.target.value)}
             type='email'
           />
         </div>
@@ -48,7 +53,7 @@ const Register = props => {
             required
             className='reg-in'
             name='username'
-            onChange={e => updateUsername(e.target.value)}
+            onChange={e => setUsername(e.target.value)}
             type='text'
           />
         </div>
@@ -58,7 +63,7 @@ const Register = props => {
             required
             className='reg-in'
             name='password'
-            onChange={e => updatePassword(e.target.value)}
+            onChange={e => setPassword(e.target.value)}
             type='password'
           />
         </div>
@@ -68,7 +73,7 @@ const Register = props => {
             required
             className='reg-in'
             name='password2'
-            onChange={e => updatePassword2(e.target.value)}
+            onChange={e => setPassword2(e.target.value)}
             type='password'
           />
         </div>

@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
-import { setUser } from '../ducks/reducer'
-import { connect } from 'react-redux'
 import AppButton from './AppButton'
 
 const Login = props => {
@@ -12,12 +10,14 @@ const Login = props => {
   const userLogin = () => {
     const check = document.getElementById('login-form').checkValidity()
     if (check) {
+      props.setLoading(true)
       axios
         .post('/api/user', { email, password })
         .then(res => {
           props.setUser(res.data)
           updateEmail('')
           updatePassword('')
+          props.setLoading(false)
           props.showModal()
         })
         .catch(err => alert(err.request.responseText))
@@ -73,13 +73,8 @@ const Login = props => {
     </LoginModal>
   )
 }
-function mapStateToProps(reduxState) {
-  return {
-    userId: reduxState.userId,
-    username: reduxState.username
-  }
-}
-export default connect(mapStateToProps, { setUser })(Login)
+
+export default Login
 
 const LoginModal = styled.div`
   position: fixed;

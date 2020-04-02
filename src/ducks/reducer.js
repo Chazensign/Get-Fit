@@ -2,12 +2,21 @@ const initialState = {
   userId: null,
   username: '',
   userExercises: [],
-  userFoods: []
+  userFoods: [],
+  loading: false
 }
 
 const SET_USER = 'SET_USER'
 const CLEAR_USER = 'CLEAR_USER'
 const UPDATE_EXS = 'UPDATE_EXS'
+const SET_LOADING = 'SET_LOADING'
+
+export function isLoading(val) {
+  return {
+    type: SET_LOADING,
+    payload: val
+  }
+}
 
 export function setUser(userObj) {
   return {
@@ -40,6 +49,8 @@ export default function reducer(state = initialState, action) {
       return { ...action.payload }
       case UPDATE_EXS:
         return {...state, userExercises: action.payload}
+        case SET_LOADING:
+          return {...state, loading: action.payload}
 
     default:
       return state
