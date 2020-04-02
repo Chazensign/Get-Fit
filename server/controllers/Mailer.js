@@ -25,7 +25,7 @@ const sendMail = userInfo => {
       service: 'gmail',
       auth: {
         type: 'OAuth2',
-        user: 'chazensign@gmail.com',
+        user: 'getfitwebapp@gmail.com',
         clientId: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         refreshToken: REFRESH_TOKEN,
@@ -34,7 +34,7 @@ const sendMail = userInfo => {
     })
 
     let message = {
-      from: 'GetFit <no-reply@GetFit.com>',
+      from: 'GetFitApp <no-reply@gmail.com>',
       to: `<${email}>`,
       subject: `GetFit password reset request for ${username}`,
       text: `To log into your GetFit account, use this temporary password: ${temp_password} `,
