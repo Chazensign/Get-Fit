@@ -4,8 +4,10 @@ import axios from 'axios'
 import AppButton from './AppButton'
 
 const Register = props => {
-  const [email, setEmail] = useState('')
-  const [username, setUsername] = useState('')
+  console.log(props)
+  
+  const [email, setEmail] = useState(props.user.userId ? props.user.userEmail : '')
+  const [usernameInput, setUsername] = useState(props.user.userId ? props.user.username : '')
   const [password, setPassword] = useState('')
   const [password2, setPassword2] = useState('')
 
@@ -15,7 +17,7 @@ const Register = props => {
       if (password === password2) {
         props.setLoading(true)
         axios
-          .post('/api/register', { email, username, password })
+          .post('/api/register', { email, usernameInput, password })
           .then(res => {
             alert('Account created, you have been logged in.')
             props.setUser(res.data)
@@ -33,34 +35,59 @@ const Register = props => {
     }
   }
 
+  const updateUser = (e) => {
+    const check = document.getElementById('register-form').checkValidity()
+    if (password !== password2) return alert("Passwords don't match")
+    const { userId, userEmail } = props.user
+      if (check && userId) {
+        props.setLoading(true)
+        axios
+          .put('/api/user', {username: usernameInput, newEmail: email, oldEmail: userEmail, password})
+          .then(res => {
+            props.setUser(res.data)
+            setEmail()
+            setUsername()
+            setPassword()
+            setPassword2()
+            props.setLoading(false)
+            props.showModal('reg', e)
+        })
+      }
+  }
+
   return (
     <RegisterView>
       <form id='register-form' className='register-box'>
         <h2>Register</h2>
         <div>
-          <h3>Email</h3>
+          <label htmlFor='reg-email'>Email</label>
           <input
             required
+            id='reg-email'
             className='reg-in'
             name='email'
+            value={email}
             onChange={e => setEmail(e.target.value)}
             type='email'
           />
         </div>
         <div>
-          <h3>Username</h3>
+          <label htmlFor='username'>Username</label>
           <input
             required
+            id='username'
             className='reg-in'
-            name='username'
+            name='usernameInput'
+            value={usernameInput}
             onChange={e => setUsername(e.target.value)}
             type='text'
           />
         </div>
         <div>
-          <h3>Password</h3>
+          <label htmlFor='reg-pass'>Password</label>
           <input
-            required
+            required={props.user.userId ? false : true}
+            id='reg-pass'
             className='reg-in'
             name='password'
             onChange={e => setPassword(e.target.value)}
@@ -68,9 +95,10 @@ const Register = props => {
           />
         </div>
         <div>
-          <h3>Confirm Password</h3>
+          <label htmlFor='pass2'>Confirm Password</label>
           <input
-            required
+            required={password ? true : false}
+            id='pass2'
             className='reg-in'
             name='password2'
             onChange={e => setPassword2(e.target.value)}
@@ -78,7 +106,7 @@ const Register = props => {
           />
         </div>
         <div className='button-cont'>
-          <AppButton name='Register' onClick={e => registerUser(e)} />
+          <AppButton name={props.user.userId ? 'Submit' : 'Register'} onClick={e => props.user.userId ? updateUser(e) : registerUser(e)} />
           <AppButton name='Cancel' onClick={e => props.showModal(null, e)} />
         </div>
       </form>
@@ -97,11 +125,11 @@ const RegisterView = styled.div`
   background: rgba(0, 0, 0, 0.62);
   z-index: 2;
   .register-box {
-    padding: 20px 20px 10px 20px;
+    padding: 5px 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 300px;
+    width: 275px;
     height: 350px;
     background: white;
     position: fixed;
@@ -111,8 +139,9 @@ const RegisterView = styled.div`
     transform: translate(-50%, -50%);
     h2 {
       text-align: center;
-      font-size: 24px;
+      font-size: 30px;
       font-weight: bold;
+      font-family: 'Racing Sans One', cursive;
     }
     .reg-in {
       border: 1px inset lightgray;
@@ -120,9 +149,12 @@ const RegisterView = styled.div`
       margin: 3px 0 8px 0;
       font-size: 14px;
       width: 100%;
+      height: 30px;
     }
-    div h3 {
-      width: 240px;
+    div label {
+      font-weight: bold;
+      color: #525252;
+      width: 100%;
       margin-left: 10px;
     }
   }

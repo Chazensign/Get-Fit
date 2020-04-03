@@ -7,7 +7,8 @@ const Login = props => {
   const [email, updateEmail] = useState('')
   const [password, updatePassword] = useState('')
 
-  const userLogin = () => {
+  const userLogin = (e) => {
+    e.preventDefault()
     const check = document.getElementById('login-form').checkValidity()
     if (check) {
       props.setLoading(true)
@@ -18,9 +19,12 @@ const Login = props => {
           updateEmail('')
           updatePassword('')
           props.setLoading(false)
-          props.showModal()
+          props.showModal(false)
         })
-        .catch(err => alert(err.request.responseText))
+        .catch(err => {
+          alert(err.response.data)
+          props.setLoading(false)
+        })
     }
   }
 
@@ -29,9 +33,10 @@ const Login = props => {
         <form id='login-form' className='login-box'>
         <h2>Login</h2>
           <div>
-            <h3>Email</h3>
+            <label htmlFor='login-email'>Email</label>
             <input
               required
+              id='login-email'
               className='log-in'
               onChange={e => updateEmail(e.target.value)}
               type='email'
@@ -40,9 +45,10 @@ const Login = props => {
             />
           </div>
           <div>
-            <h3>Password</h3>
+            <label htmlFor='login-pass'>Password</label>
             <input
               required
+              id='login-pass'
               className='log-in'
               onChange={e => updatePassword(e.target.value)}
               type='password'
@@ -55,7 +61,7 @@ const Login = props => {
               props.showModal('reg', e)
             }}
             className='register-link'>
-            To Register Click Here
+            Register
           </a>
           <a
             href='reset password'
@@ -66,7 +72,7 @@ const Login = props => {
             Forgot Password?
           </a>
           <div className='button-cont'>
-            <AppButton name='Submit' onClick={userLogin} />
+            <AppButton name='Submit' onClick={(e) => userLogin(e)} />
             <AppButton name='Cancel' onClick={e => props.showModal(null, e)} />
           </div>
         </form>
@@ -85,11 +91,11 @@ const LoginModal = styled.div`
   background: rgba(0, 0, 0, 0.62);
   z-index: 2;
   .login-box {
-    padding: 15px;
+    padding: 5px 15px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 300px;
+    width: 275px;
     height: 300px;
     background: white;
     position: fixed;
@@ -99,18 +105,22 @@ const LoginModal = styled.div`
     transform: translate(-50%, -50%);
     h2 {
       text-align: center;
-      font-size: 24px;
+      font-size: 30px;
       font-weight: bold;
+      font-family: 'Racing Sans One', cursive;
     }
     .log-in {
       border: 1px inset lightgray;
       padding-left: 5px;
       margin: 3px 0 8px 0;
       font-size: 14px;
-      width: 250px;
+      width: 100%;
+      height: 30px;
     }
-    div h3 {
-      width: 240px;
+    div label {
+      font-weight: bold;
+      color: #525252;
+      width: 100%;
       margin-left: 10px;
     }
   }

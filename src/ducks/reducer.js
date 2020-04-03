@@ -1,6 +1,7 @@
 const initialState = {
   userId: null,
   username: '',
+  userEmail: '',
   userExercises: [],
   userFoods: [],
   loading: false
@@ -11,7 +12,7 @@ const CLEAR_USER = 'CLEAR_USER'
 const UPDATE_EXS = 'UPDATE_EXS'
 const SET_LOADING = 'SET_LOADING'
 
-export function isLoading(val) {
+export function setLoading(val) {
   return {
     type: SET_LOADING,
     payload: val

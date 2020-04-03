@@ -15,7 +15,7 @@ const Header = (props) => {
   const [showPassword, setShowPassword] = useState(false)
 
   const showModal = (modal, e) => {
-    e.preventDefault()
+    if (e) e.preventDefault()
     setShowPassword()
     setShowRegister()
     setShowLogin()
@@ -55,10 +55,15 @@ const Header = (props) => {
             setLoading={props.setLoading}
             setUser={props.setUser}
             showModal={showModal}
+            user={{username: props.username, userEmail: props.userEmail, userId: props.userId}}
           />
         )}
         {showPassword && (
-          <ResetPassword setLoading={props.setLoading} showModal={showModal} />
+          <ResetPassword
+            setUser={props.setUser}
+            setLoading={props.setLoading}
+            showModal={showModal}
+          />
         )}
       </HeaderStyle>
       {props.loading && <LoadingModal />}
@@ -69,6 +74,7 @@ const Header = (props) => {
    return {
      userId: reduxState.userId,
      username: reduxState.username,
+     userEmail: reduxState.userEmail,
      loading: reduxState.loading
    }
  }
