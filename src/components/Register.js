@@ -36,6 +36,7 @@ const Register = props => {
   }
 
   const updateUser = (e) => {
+    e.preventDefault()
     const check = document.getElementById('register-form').checkValidity()
     if (password !== password2) return alert("Passwords don't match")
     const { userId, userEmail } = props.user
@@ -50,7 +51,7 @@ const Register = props => {
             setPassword()
             setPassword2()
             props.setLoading(false)
-            props.showModal('reg', e)
+            props.showModal()
         })
       }
   }
@@ -66,7 +67,7 @@ const Register = props => {
             id='reg-email'
             className='reg-in'
             name='email'
-            value={email}
+            defaultValue={email}
             onChange={e => setEmail(e.target.value)}
             type='email'
           />
@@ -78,7 +79,7 @@ const Register = props => {
             id='username'
             className='reg-in'
             name='usernameInput'
-            value={usernameInput}
+            defaultValue={usernameInput}
             onChange={e => setUsername(e.target.value)}
             type='text'
           />
@@ -106,7 +107,10 @@ const Register = props => {
           />
         </div>
         <div className='button-cont'>
-          <AppButton name={props.user.userId ? 'Submit' : 'Register'} onClick={e => props.user.userId ? updateUser(e) : registerUser(e)} />
+          <AppButton name={props.user.userId ? 'Submit' : 'Register'} 
+          onClick={e => {
+            props.user.userId ? updateUser(e) : registerUser(e)
+            }} />
           <AppButton name='Cancel' onClick={e => props.showModal(null, e)} />
         </div>
       </form>

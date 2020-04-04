@@ -11,7 +11,7 @@ const FoodDetails = props => {
 
   const [isBrand, setIsBrand] = useState(false)
   const [meal, setMeal] = useState()
-  const [userValues, setUserValues] = useState([])
+  const [userValues, setUserValues] = useState(null)
   const [food, setFood] = useState({
     brand_name: '',
     serving_unit: '',
@@ -69,7 +69,7 @@ const FoodDetails = props => {
   return food ? (
     <FoodDetailStyle>
       {isBrand && <h2>{food.brand_name}</h2>}<h3>{food.food_name}</h3>
-      <NutritionLabel food={userValues} adjustValues={adjustValues}/>
+      <NutritionLabel food={userValues ? userValues : food} adjustValues={adjustValues}/>
       <Select 
       options={[{label: 'Breakfast', value: 'Breakfast'}, {label: 'Lunch', value: 'Lunch'}, { label: 'Dinner', value: 'Dinner'}, {label: 'Snack', value: 'Snack'}]}
       onChange={setMeal}

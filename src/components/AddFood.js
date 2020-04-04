@@ -18,9 +18,7 @@ const AddFood = () => {
     
     setSearchTerm(searchVal)
     if (waiting) {
-      return setTimeout(() => {
-        getResults(searchTerm)
-      }, 0)
+      return null
     }
     setWaiting(true)
     axios({

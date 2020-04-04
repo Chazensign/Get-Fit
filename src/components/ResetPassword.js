@@ -11,6 +11,7 @@ const ResetPassword = (props) => {
 
 
 const submitReset = (e) => {
+  e.preventDefault()
   const check = document.getElementById('reset-form').checkValidity()
   //Runs if user has temp password
   if (showTempInput && check) {
