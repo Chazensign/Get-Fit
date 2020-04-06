@@ -4,23 +4,17 @@ import styled from 'styled-components'
 import BarcodeReader from 'react-barcode-reader'
 import AppButton from './AppButton'
 import { Link } from 'react-router-dom'
+import debounce from './DebounceFn'
 
 const AddFood = () => {
   const [brandRes, setBrandResults] = useState([])
   const [commonRes, setCommonResults] = useState([])
   const [searchTerm, setSearchTerm] = useState('')
   const [brandId, setBrandId] = useState('')
+  const [dispBrands, setDispBrands] = useState(true)
   const [showScan, setScan] = useState(false)
-  const [waiting, setWaiting] = useState(false)
 
-  const getResults = (searchVal) => {
-    console.log(waiting)
-    
-    setSearchTerm(searchVal)
-    if (waiting) {
-      return null
-    }
-    setWaiting(true)
+  const getResults = debounce((searchVal) => {
     axios({
       url: `https://trackapi.nutritionix.com/v2/search/instant?query=${searchVal}${
         brandId ? `&brand_ids=${brandId}` : ''
@@ -32,46 +26,53 @@ const AddFood = () => {
       }
     })
       .then(res => {
-        console.log(res.data)
-        setWaiting(false)
+        console.log(res.data.common)
+
         if (brandId) {
           setCommonResults(res.data.branded)
         } else {
+          const comFoods = res.data.common
           const uniqueBrands = res.data.branded
             .map(e => e.brand_name)
             .map((e, i, final) => final.indexOf(e) === i && i)
             .filter(e => res.data.branded[e])
             .map(e => res.data.branded[e])
           setBrandResults(uniqueBrands)
-          setCommonResults(res.data.common)
+          const idList = comFoods.map(food => food.tag_id)
+          const uniqueCom = comFoods.filter((food, i) => +idList.indexOf(food.tag_id) === i)
+          setCommonResults(uniqueCom)
         }
       })
       .catch(err => console.log(err))
-  }
+  }, 300)
   
   return (
     <AddFoodPage>
-      <div className='search-cont'>
       <h2>Search</h2>
+      <div className='search-cont'>
       <input
         placeholder='Brand or Food'
         type='text'
         value={searchTerm}
-        onChange={e => getResults(e.target.value)}
+        onChange={e => {
+          setSearchTerm(e.target.value)
+          getResults(e.target.value)
+        }}
       />
       <AppButton
         name='Clear'
         onClick={() => {
-          setSearchTerm('')
-          setBrandId('')
-          setCommonResults([])
-          setBrandResults([])
+          setSearchTerm()
+          setBrandId()
+          setCommonResults()
+          setBrandResults()
         }}
       />
       </div>
       <div className='all-results'>
-        <h2>Brands</h2>
-        {brandRes.map((brand, i) => {
+        <h2 className='brand-label' onClick={() => setDispBrands(prevState => !prevState)}>Brands<img alt='expand' src={dispBrands ? './up-arrow.png' : './down-arrow.png' }/></h2>
+        <div className='brand-cont'>
+        {dispBrands ? brandRes.map((brand, i) => {
           return (
             <div className='brand-res' key={i}>
               <h3
@@ -85,13 +86,17 @@ const AddFood = () => {
               </h3>
             </div>
           )
-        })}
-        <h2>Foods</h2>
+        }) : null }
+        </div>
+        <h2 className='food-label'>{brandId ? `Foods from ${brandRes[0].brand_name}` : 'Foods'}</h2>
         {commonRes.map((food, i)=> {
           return (
             <Link
             key={i}
-              to={`/food/details/${food.nix_item_id}`}
+              to={{
+                pathname: food.tag_id ? '/food/natural/details' : `/food/brand/details/${food.nix_item_id}`,
+                state:  {food_name: food.tag_id ? food.food_name : null }
+            }}
               className='brand-res'>
               <h4>{food.food_name}</h4>
               <img alt='brand' src={food.photo.thumb} />
@@ -113,35 +118,60 @@ const AddFood = () => {
 
 export default AddFood
 
-
 const AddFoodPage = styled.main`
   display: flex;
   flex-direction: column;
   justify-content: center;
   background: lightgray;
   height: 100vh;
-  padding: 20px;
-h2 {
-  font-size: 24px;
-}
+  padding: 75px 20px 0 20px;
+  h2 {
+    font-size: 24px;
+  }
+  .search-cont {
+    display: flex;
+    align-items: center;
   input {
-    width: 70%;
+    width: 100%;
+    height: 28px;
+    margin: 8px 0;
+    font-size: 20px;
     border-radius: 2px;
+  }
+  button {
+    margin-right: 0;
+  }
   }
   .all-results {
     background: white;
-    height: 500px;
+    height: 100%;
     border-radius: 2px;
     overflow: scroll;
     h2 {
-      position: sticky;
-      top: 0;
       padding: 5px 20px;
       background: #f0f0f0;
       font-size: 28px;
       font-weight: bold;
       border-radius: 2px;
       box-shadow: inset 0px 0px 2px 2px rgba(0, 0, 0, 0.36);
+      img {
+        height: 28px;
+      }
+    }
+    .brand-label {
+      position: sticky;
+      top: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand-cont {
+      max-height: 350px;
+      overflow: scroll;
+    }
+    .food-label {
+      position: sticky;
+      top: 38px;
     }
   }
   .brand-res {

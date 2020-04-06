@@ -19,8 +19,6 @@ const sendMail = userInfo => {
     })
     const accessToken = oauth2Client.getAccessToken()
 
-    console.log('Credentials obtained, sending message...')
-
     const smtpTransport = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -45,7 +43,6 @@ const sendMail = userInfo => {
       error ? console.log(error) : resolve(response)
       smtpTransport.close()
     })
-
   })
 }
 

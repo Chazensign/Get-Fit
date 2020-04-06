@@ -16,7 +16,8 @@ export default (
     <Route path='/profile' component={UserProfile} />
     <Route path='/user/exercises/:group' component={UserExList} />
     <Route path='/user/addfood' component={AddFood} />
-    <Route path='/food/details/:foodId' component={FoodDetails} />
+    <Route path='/food/brand/details/:foodId' component={FoodDetails} />
+    <Route path='/food/natural/details' component={FoodDetails} />
     <Route path='/' component={Landing} />
   </Switch>
 )

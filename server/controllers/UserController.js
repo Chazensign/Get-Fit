@@ -31,8 +31,6 @@ module.exports = {
     }else {
       const isAuthenticated = bcrypt.compareSync(password, user.password)
       if (!isAuthenticated) {
-        console.log('running bcrypt err')
-
         return res.status(403).send('Incorrect Password')
       }
     }
@@ -43,7 +41,6 @@ module.exports = {
       userEmail: user.email,
       userExercises: userExs
     }
-    console.log('sending results')
     return res.status(200).send(req.session.user)
   },
   userLogOut: (req, res) => {

@@ -59,7 +59,7 @@ const Register = props => {
   return (
     <RegisterView>
       <form id='register-form' className='register-box'>
-        <h2>Register</h2>
+        {props.user.userdId ? <h2>Update User</h2> : <h2>Register</h2>}
         <div>
           <label htmlFor='reg-email'>Email</label>
           <input

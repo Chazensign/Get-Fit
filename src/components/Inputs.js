@@ -37,7 +37,6 @@ class Inputs extends Component {
     axios
     .post('/api/add/exercise', this.state)
     .then(res => {
-      console.log(res)
       if (this.state.checked) {
       this.props.updateExs(res.data.userExs)
       const location = {

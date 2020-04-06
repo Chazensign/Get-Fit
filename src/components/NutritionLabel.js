@@ -13,10 +13,10 @@ const NutritionLabel = props => {
       <hr className='thin-long' />
       <div className='serving grams'>
         <h3>Serving Size</h3>
-          <h3>
-            {food.serving_qty} {food.serving_unit}&nbsp;
-            ({food.serving_weight_grams})g
-          </h3>
+        <h4>
+          {food.serving_qty} {food.serving_unit}&nbsp;
+        </h4>
+          {food.serving_weight_grams && `(${food.serving_weight_grams})g`}
       </div>
       <div className='serving size'>
         <h3>Servings:&nbsp;</h3>
@@ -26,8 +26,8 @@ const NutritionLabel = props => {
           value={servings || 0}
           onChange={e => {
             setServings(+e.target.value)
-              adjustValues(+e.target.value + partServing)
-            }}>
+            adjustValues(+e.target.value + partServing)
+          }}>
           {[...Array(10)].map((el, i) => (
             <option key={i} value={i}>
               {i}
@@ -40,8 +40,8 @@ const NutritionLabel = props => {
           value={partServing || 0}
           onChange={e => {
             setPartServings(+e.target.value)
-              adjustValues(servings + +e.target.value)
-            }}>
+            adjustValues(servings + +e.target.value)
+          }}>
           <option value={0}>0</option>
           <option value={0.125}>1/8</option>
           <option value={0.25}>1/4</option>
@@ -55,12 +55,10 @@ const NutritionLabel = props => {
       <hr className='thickest-long' />
       <div className='macro-line cals'>
         <div>
-        <p className='amounts'>Amounts Based On Serving Number</p>
-        <h3 className='cal'>Calories&nbsp;</h3>
+          <p className='amounts'>Amounts Based On Serving Number</p>
+          <h3 className='cal'>Calories&nbsp;</h3>
         </div>
-        <h2 className='cal-num'>
-          {Math.round(food.nf_calories)}
-        </h2>
+        <h2 className='cal-num'>{Math.round(food.nf_calories)}</h2>
       </div>
       <hr className='thicker-long' />
       <h3 className='dv'>% Daily Value *</h3>
@@ -70,22 +68,13 @@ const NutritionLabel = props => {
           <h3>Total Fat&nbsp;</h3>
           <p>{Math.round(food.nf_total_fat)}g</p>
         </div>
-        <p className='percent'>
-          {Math.round((food.nf_total_fat / 78) * 100
-          )}
-          %
-        </p>
+        <p className='percent'>{Math.round((food.nf_total_fat / 78) * 100)}%</p>
       </div>
       <hr className='thin-long' />
       <div className='macro-line fats'>
-        <p>
-          Saturated Fat {Math.round(food.nf_saturated_fat)}g
-        </p>
+        <p>Saturated Fat {Math.round(food.nf_saturated_fat)}g</p>
         <p className='percent'>
-          {Math.round(
-            (food.nf_saturated_fat / 20) * 100
-          )}
-          %
+          {Math.round((food.nf_saturated_fat / 20) * 100)}%
         </p>
       </div>
       <hr className='thin-long' />
@@ -95,9 +84,7 @@ const NutritionLabel = props => {
           <p>{Math.round(food.nf_cholesterol)}mg</p>
         </div>
         <p className='percent'>
-          {Math.round((food.nf_cholesterol / 300) * 100
-          )}
-          %
+          {Math.round((food.nf_cholesterol / 300) * 100)}%
         </p>
       </div>
       <hr className='thin-long' />
@@ -107,11 +94,7 @@ const NutritionLabel = props => {
           <p>{Math.round(food.nf_sodium)}mg</p>
         </div>
 
-        <p className='percent'>
-          {Math.round((food.nf_sodium / 2300) * 100
-          )}
-          %
-        </p>
+        <p className='percent'>{Math.round((food.nf_sodium / 2300) * 100)}%</p>
       </div>
       <hr className='thin-long' />
       <div className='macro-line'>
@@ -120,22 +103,14 @@ const NutritionLabel = props => {
           <p>{Math.round(food.nf_total_carbohydrate)}g</p>
         </div>
         <p className='percent'>
-          {Math.round(
-            (food.nf_total_carbohydrate / 275) *
-              100
-          )}
-          %
+          {Math.round((food.nf_total_carbohydrate / 275) * 100)}%
         </p>
       </div>
       <hr className='thin-long' />
       <div className='macro-line carbs'>
-        <p>
-          Dietary Fiber {Math.round(food.nf_dietary_fiber)}g
-        </p>
+        <p>Dietary Fiber {Math.round(food.nf_dietary_fiber)}g</p>
         <p className='percent'>
-          {Math.round((food.nf_dietary_fiber / 28) * 100
-          )}
-          %
+          {Math.round((food.nf_dietary_fiber / 28) * 100)}%
         </p>
       </div>
       <hr className='thin-long' />
@@ -153,12 +128,12 @@ const NutritionLabel = props => {
       <hr className='thickest-long' />
       <hr className='thicker-long' />
       <div className='full-disclaimer'>
-      <p className='ast'>*</p>
-      <p className='disclaim'>
-        The % Daily Value (DV) tells you how much a nutrient in a serving of
-        food contributes to a daily diet. 2,000 calories a day is used for
-        general nutrition advice.
-      </p>
+        <p className='ast'>*</p>
+        <p className='disclaim'>
+          The % Daily Value (DV) tells you how much a nutrient in a serving of
+          food contributes to a daily diet. 2,000 calories a day is used for
+          general nutrition advice.
+        </p>
       </div>
     </NutritionStyle>
   )
@@ -241,6 +216,10 @@ const NutritionStyle = styled.main`
     justify-content: space-between;
     font-size: 22px;
     font-weight: bolder;
+    h4 {
+      font-size: 18px;
+      font-weight: 400;
+    }
   }
   .dv {
     font-size: 18px;
