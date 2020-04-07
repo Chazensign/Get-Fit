@@ -3,7 +3,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import NutritionLabel from './NutritionLabel'
 import AppButton from './AppButton'
-import Select from 'react-select'
+import { SelectStyle } from './StyledElements'
 
 const FoodDetails = props => {
   const { food_name } = props.location.state
@@ -90,18 +90,17 @@ const FoodDetails = props => {
         food={userValues ? userValues : food}
         adjustValues={adjustValues}
       />
-      <Select
-        options={[
-          { label: 'Breakfast', value: 'Breakfast' },
-          { label: 'Lunch', value: 'Lunch' },
-          { label: 'Dinner', value: 'Dinner' },
-          { label: 'Snack', value: 'Snack' }
-        ]}
+      <SelectStyle
         onChange={setMeal}
-      />
+      >
+        <option value="breakfast">Breakfast</option>
+        <option value="lunch">Lunch</option>
+        <option value="dinner">Dinner</option>
+        <option value="snack">Snacks</option>
+      </SelectStyle>
       <div className='button-cont'>
         <AppButton name='Save' onClick={() => saveFood()} />
-        <AppButton name='Back' />
+        <AppButton name='Back' onClick={() => props.history.push('/user/addfood')} />
       </div>
     </FoodDetailStyle>
   ) : (

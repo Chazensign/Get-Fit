@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { SelectStyle } from './StyledElements'
 
 const SetRepsWeight = (props) => {
   const {reps, sets, weight} = props.state
@@ -8,7 +9,7 @@ const SetRepsWeight = (props) => {
       <div className='workout-info'>
         <div className='srw-cont'>
           <h2>Sets: </h2>
-          <select
+          <SRWSelect
             type='number'
             name='sets'
             onChange={e => props.handleChange(e.target)}
@@ -18,11 +19,11 @@ const SetRepsWeight = (props) => {
                 {i}
               </option>
             ))}
-          </select>
+          </SRWSelect>
         </div>
         <div className='srw-cont'>
           <h2>Reps: </h2>
-          <select
+          <SRWSelect
             type='number'
             name='reps'
             onChange={e => props.handleChange(e.target)}
@@ -32,11 +33,11 @@ const SetRepsWeight = (props) => {
                 {i}
               </option>
             ))}
-          </select>
+          </SRWSelect>
         </div>
         <div className='srw-cont'>
           <h2>Weight: </h2>
-          <select
+          <SRWSelect
             type='number'
             name='weight'
             onChange={e => props.handleChange(e.target)}
@@ -46,7 +47,7 @@ const SetRepsWeight = (props) => {
                 {i * 5}
               </option>
             ))}
-          </select>
+          </SRWSelect>
         </div>
       </div>
     </RSWStyle>
@@ -55,6 +56,9 @@ const SetRepsWeight = (props) => {
 
 export default SetRepsWeight
 
+const SRWSelect = styled(SelectStyle)`
+  margin: 0 5px;
+`
 const RSWStyle = styled.section`
 padding-left: 10px;
 margin-top: 15px;
@@ -65,10 +69,6 @@ margin-top: 15px;
       font-size: 20px;
       font-weight: 400;
       font-family: 'Racing Sans One', cursive;
-    }
-    select {
-      width: 60px;
-      margin: 0 5px;
     }
     input {
       width: 50px;
