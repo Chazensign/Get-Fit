@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import NutritionLabel from './NutritionLabel'
 import AppButton from './AppButton'
 import { SelectStyle } from './StyledElements'
+const moment = require('moment')
 
 const FoodDetails = props => {
   const { food_name } = props.location.state
@@ -11,6 +12,7 @@ const FoodDetails = props => {
   const [isBrand, setIsBrand] = useState(false)
   const [meal, setMeal] = useState()
   const [userValues, setUserValues] = useState(null)
+  const [date, setDate] = useState(moment().format('L'))
   const [food, setFood] = useState({
     photo: {thumb: ''},
     brand_name: '',
@@ -27,7 +29,7 @@ const FoodDetails = props => {
     nf_sugars: 0,
     nf_protein: 0
   })
-  console.log(meal)
+  console.log(date)
 
   useEffect(() => {
       axios({
@@ -72,7 +74,10 @@ const FoodDetails = props => {
   }
 
   const saveFood = () => {
-    axios.post('/user/food', { ...food, meal })
+    axios
+    .post('/user/food', { ...food, meal, date })
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err))
   }
   return food ? (
     <FoodDetailStyle

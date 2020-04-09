@@ -309,22 +309,15 @@ create table user_exs(user_ex_id SERIAL PRIMARY KEY, user_id INTEGER REFERENCES 
                       sets INTEGER, weight DECIMAL, hr INTEGER, min INTEGER, sec INTEGER);
 
 
-insert into user_exs(user_id, ex_id, reps,
-                     sets, weight, modifications, notes, hr, min, sec)
-values(1,
-       1,
-       10,
-       4,
-       35,
-       null,
-       'This is my custom note.',
-       0,
-       0,
-       0);
-
 create table user_foods(
         food_id serial primary key, 
-        user_id INTEGER REFERENCES users(user_id), 
+        user_id INTEGER REFERENCES users(user_id),
+        consumed_date DATE,
+        meal VARCHAR(15),
+        brand_name VARCHAR(50),
+        food_name VARCHAR(50),
+        serving_unit VARCHAR(50), 
+        serving_qty INTEGER,
         cals INTEGER,
         fat INTEGER, 
         carbs INTEGER,

@@ -17,29 +17,32 @@ class ExDetails extends Component {
       group: '',
       userData: {}
     }
+    
   }
 
   componentDidMount() {
-    if (this.props.location.state === undefined) {
+    const { state } = this.props.location
+    if (state === undefined) {
       return <Redirect to='/' />
     }
       this.setState({
-        userData: this.props.location.state.exercise,
-        group: this.props.location.state.group
+        userData: state.exercise,
+        group: state.group
       })
   }
 
   addExToUser = () => {
-    if (!this.props.userId) return alert('Please login or register.')
-    let index = this.props.userExercises.filter(
-      ex => ex.ex_id === this.state.userData.ex_id
+    const { props, state } = this
+    if (!props.userId) return alert('Please login or register.')
+    let index = props.userExercises.filter(
+      ex => ex.ex_id === state.userData.ex_id
     )
     if (index[0]) return this.submitChange()
     axios
-      .post('/api/user/exercises', this.state.userData)
+      .post('/api/user/exercises', state.userData)
       .then(res => {
-        this.props.updateExs(res.data)
-        this.props.history.push('/profile')
+        props.updateExs(res.data)
+        props.history.push('/profile')
       })
   }
 
@@ -61,15 +64,16 @@ class ExDetails extends Component {
   }
 
   deleteEx = () => {
+    const { user_ex_id } = this.props.location.state
     axios
-      .delete(`/api/exercise/${this.state.toDisplay.id}`)
+      .delete(`/api/user/exercise/${user_ex_id}`)
       .then(res => this.goBack())
       .catch(err => console.log(err))
   }
 
   goBack = mM => {
     let location
-    if (this.props.location.state.exercise.user_ex_id) {
+    if (this.props.location.state.user_ex_id) {
       location = {
         pathname: '/user/exList',
         state: { group: mM }
