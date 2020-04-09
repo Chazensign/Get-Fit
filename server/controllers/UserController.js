@@ -34,12 +34,14 @@ module.exports = {
         return res.status(403).send('Incorrect Password')
       }
     }
-    const userExs = await db.get_user_exs(user.user_id)
+    const userFoods = await db.get_user_foods(user.user_id)
+    const userExercises = await db.get_user_exs(user.user_id)
     req.session.user = {
       userId: user.user_id,
       username: user.username,
       userEmail: user.email,
-      userExercises: userExs
+      userExercises,
+      userFoods
     }
     return res.status(200).send(req.session.user)
   },

@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import { updateFoods } from '../ducks/reducer'
+import { connect } from 'react-redux'
 import styled from 'styled-components'
 import NutritionLabel from './NutritionLabel'
 import AppButton from './AppButton'
 import { SelectStyle } from './StyledElements'
-const moment = require('moment')
+import moment from 'moment'
 
 const FoodDetails = props => {
   const { food_name } = props.location.state
@@ -75,8 +77,8 @@ const FoodDetails = props => {
 
   const saveFood = () => {
     axios
-    .post('/user/food', { ...food, meal, date })
-    .then(res => console.log(res.data))
+    .post('/api/user/food', { ...food, meal, date })
+    .then(res => props.updateFoods(res.data))
     .catch(err => console.log(err))
   }
   return food ? (
@@ -115,7 +117,7 @@ const FoodDetails = props => {
   )
 }
 
-export default FoodDetails
+export default connect({updateFoods})(FoodDetails)
 
 const FoodDetailStyle = styled.main`
   padding: 60px 30px 0;

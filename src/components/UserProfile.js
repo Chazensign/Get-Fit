@@ -1,123 +1,66 @@
-import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import AppButton from './AppButton'
 import icons from './icons/Icons'
+import UserFoods from './UserFoods'
 
-class UserProfile extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      meals: []
-    }
+const UserProfile = (props) => {
+  const userGroup = group => {
+    const location = { pathname: '/user/exList', state: { group } }
+    props.history.push(location)
   }
+  console.log(props.userFoods)
 
-  userGroup = gr => {
-    const location = { pathname: '/user/exList', state: { group: gr } }
-    this.props.history.push(location)
-  }
-
-  render() {
-    icons()
-    return (
-      <UserPage>
-        <div className='head-space' />
-        <article className='ex-back'>
-          <h2>My Exercises</h2>
-          <nav>
-            <ul>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Chest')}>
-                <img className='chest' src={window['chest']} alt='chest' />
-                <li>Chest</li>
-              </div>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Back')}>
-                <img className='back' src={window.back} alt='back' />
-                <li>Back</li>
-              </div>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Shoulder')}>
-                <img
-                  className='shoulders'
-                  src={window.shoulders}
-                  alt='shoulders'
-                />
-                <li>Shoulder</li>
-              </div>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Arms')}>
-                <img className='arm' src={window.arms} alt='arms' />
-                <li>Arms</li>
-              </div>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Legs')}>
-                <img className='leg' src={window.legs} alt='legs' />
-                <li>Legs</li>
-              </div>
-              <div
-                className='group-cont'
-                onClick={() => this.userGroup('Core')}>
-                <img className='core' src={window.core} alt='core' />
-                <li>Core</li>
-              </div>
-            </ul>
-          </nav>
-        </article>
-        <article>
-          <div className='nutrition-button'>
-            <h2>My Nutrition</h2>
-            <Link to='/user/addfood'>
-              <AppButton name='Add Food' />
-            </Link>
-          </div>
-          <div className='graph-cont'>Graph</div>
-          <details>
-            <summary>
-              <h3>Breakfast</h3>
-              <h4>Cal:</h4>
-            </summary>
-          </details>
-          <details>
-            <summary>
-              <h3>Lunch</h3>
-              <h4>Cal:</h4>
-            </summary>
-          </details>
-          <details>
-            <summary>
-              <h3>Dinner</h3>
-              <h4>Cal:</h4>
-            </summary>
-          </details>
-          <details>
-            <summary>
-              <h3>Snack</h3>
-              <h4>Cal:</h4>
-            </summary>
-          </details>
+  icons()
+  return (
+    <UserPage>
+      <div className='head-space' />
+      <article className='ex-back'>
+        <h2>My Exercises</h2>
+        <nav>
           <ul>
-            {this.state.meals.map(meal => {
-              return <li>meal</li>
-            })}
+            <div className='group-cont' onClick={() => userGroup('Chest')}>
+              <img className='chest' src={window['chest']} alt='chest' />
+              <li>Chest</li>
+            </div>
+            <div className='group-cont' onClick={() => userGroup('Back')}>
+              <img className='back' src={window.back} alt='back' />
+              <li>Back</li>
+            </div>
+            <div className='group-cont' onClick={() => userGroup('Shoulder')}>
+              <img
+                className='shoulders'
+                src={window.shoulders}
+                alt='shoulders'
+              />
+              <li>Shoulder</li>
+            </div>
+            <div className='group-cont' onClick={() => userGroup('Arms')}>
+              <img className='arm' src={window.arms} alt='arms' />
+              <li>Arms</li>
+            </div>
+            <div className='group-cont' onClick={() => userGroup('Legs')}>
+              <img className='leg' src={window.legs} alt='legs' />
+              <li>Legs</li>
+            </div>
+            <div className='group-cont' onClick={() => userGroup('Core')}>
+              <img className='core' src={window.core} alt='core' />
+              <li>Core</li>
+            </div>
           </ul>
-        </article>
-      </UserPage>
-    )
-  }
+        </nav>
+      </article>
+      <UserFoods userFoods={props.userFoods} />
+    </UserPage>
+  )
 }
 
 function mapStateToProps(reduxState) {
   return {
     userId: reduxState.userId,
     username: reduxState.username,
-    userExs: reduxState.userExercises
+    userExs: reduxState.userExercises,
+    userFoods: reduxState.userFoods
   }
 }
 export default connect(mapStateToProps)(UserProfile)
