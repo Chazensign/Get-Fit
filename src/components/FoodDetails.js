@@ -1,20 +1,21 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import moment from 'moment'
+import styled from 'styled-components'
+import { SelectStyle } from './StyledElements'
 import { updateFoods } from '../ducks/reducer'
 import { connect } from 'react-redux'
-import styled from 'styled-components'
 import NutritionLabel from './NutritionLabel'
 import AppButton from './AppButton'
-import { SelectStyle } from './StyledElements'
-import moment from 'moment'
+import DateSelect from './DateSelect'
 
 const FoodDetails = props => {
+
   const { food_name } = props.location.state
   const { foodId } = props.match.params
-  const [isBrand, setIsBrand] = useState(false)
   const [meal, setMeal] = useState()
   const [userValues, setUserValues] = useState(null)
-  const [date, setDate] = useState(moment().format('L'))
+  const [pickedDate, setPickedDate] = useState(moment().format('L'))
   const [food, setFood] = useState({
     photo: {thumb: ''},
     brand_name: '',
@@ -31,7 +32,6 @@ const FoodDetails = props => {
     nf_sugars: 0,
     nf_protein: 0
   })
-  console.log(date)
 
   useEffect(() => {
       axios({
@@ -49,13 +49,8 @@ const FoodDetails = props => {
           'query': food_name
         }
       }).then(res => {
-        console.log(res.data.foods[0])
-
         setFood(res.data.foods[0])
         setUserValues(res.data.foods[0])
-        if (res.data.foods[0].brand_name) {
-          setIsBrand(true)
-        }
         console.log(res.data.foods[0])
       })
   }, [foodId, food_name])
@@ -75,9 +70,25 @@ const FoodDetails = props => {
     })
   }
 
+  const adjustDate = fromToday => {
+    if (fromToday > 0)
+      setPickedDate(
+        moment()
+          .add(fromToday, 'd')
+          .format('L')
+      )
+    else if (fromToday < 0)
+      setPickedDate(
+        moment()
+          .subtract(-1 * fromToday, 'd')
+          .format('L')
+      )
+    else setPickedDate(moment().format('L'))
+  }
+
   const saveFood = () => {
     axios
-    .post('/api/user/food', { ...food, meal, date })
+    .post('/api/user/food', { ...food, meal, date: pickedDate })
     .then(res => props.updateFoods(res.data))
     .catch(err => console.log(err))
   }
@@ -89,7 +100,7 @@ const FoodDetails = props => {
           : 'https://www.pikpng.com/pngl/m/5-59984_png-file-svg-vector-food-icon-png-clipart.png'
       }>
       <div className='name-img'>
-        {isBrand && <h2>{food.brand_name}</h2>}
+        {food.brand_name && <h2>{food.brand_name}</h2>}
         <h2>{food.food_name}</h2>
         {food.photo.thumb && <div className='food-img' />}
       </div>
@@ -97,17 +108,19 @@ const FoodDetails = props => {
         food={userValues ? userValues : food}
         adjustValues={adjustValues}
       />
-      <SelectStyle
-        onChange={setMeal}
-      >
-        <option value="breakfast">Breakfast</option>
-        <option value="lunch">Lunch</option>
-        <option value="dinner">Dinner</option>
-        <option value="snack">Snacks</option>
+      <SelectStyle onChange={setMeal}>
+        <option value='breakfast'>Breakfast</option>
+        <option value='lunch'>Lunch</option>
+        <option value='dinner'>Dinner</option>
+        <option value='snack'>Snacks</option>
       </SelectStyle>
+      <DateSelect adjustDate={adjustDate} pickedDate={pickedDate} />
       <div className='button-cont'>
         <AppButton name='Save' onClick={() => saveFood()} />
-        <AppButton name='Back' onClick={() => props.history.push('/user/addfood')} />
+        <AppButton
+          name='Back'
+          onClick={() => props.history.push('/user/addfood')}
+        />
       </div>
     </FoodDetailStyle>
   ) : (

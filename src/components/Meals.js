@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import styled from 'styled-components'
 
 const Meals = (props) => {
   const { meal, selectedMeal, mealFoods, showMeal } = props
@@ -11,10 +12,14 @@ const addMacros = (macro) => {
 }
 
   return (
-    <details open={selectedMeal === meal} onClick={() => showMeal(meal)}>
+    <StyledMeal open={selectedMeal === meal} onClick={() => showMeal(meal)}>
       <summary>
-        <h3>{meal.replace(meal[0], meal[0].toUpperCase())}</h3>
+        <h3>{meal}</h3>
         <h4>Cal: {addMacros('cals')}</h4>
+        <img
+          alt='expand'
+          src={selectedMeal === meal ? './up-arrow.png' : './down-arrow.png'}
+        />
       </summary>
       <div>
         <h4>Fat: {addMacros('fat')}</h4>
@@ -50,8 +55,33 @@ const addMacros = (macro) => {
           )
         })}
       </ul>
-    </details>
+    </StyledMeal>
   )
 }
  
-export default Meals;
+export default Meals
+
+const StyledMeal = styled.details`
+  margin: 10px 10px;
+  details {
+    margin: 10px 10px;
+  }
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    ::-webkit-details-marker {
+      display: none;
+    }
+    h3 {
+      font-size: 24px;
+    }
+    h4 {
+      width: 100px;
+    }
+    img {
+      height: 28px;
+    }
+  }
+`

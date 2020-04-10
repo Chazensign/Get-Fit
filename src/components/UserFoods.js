@@ -1,76 +1,88 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import AppButton from './AppButton'
-import Meals from './Meals'
 import moment from 'moment'
+import styled from 'styled-components'
+import AppButton from './AppButton'
+import DateSelect from './DateSelect'
+import Meals from './Meals'
 
 const UserFoods = props => {
   const [selectedMeal, setMeal] = useState(null)
-  const [fromToday, setFromToday] = useState(0)
-  const [pickedDate, setPickedDate] = useState(newDate())
-
-  useEffect(() => {
-    if (fromToday > 0) setPickedDate(moment().add(fromToday, 'd').format('L'))
-    else if (fromToday < 0) setPickedDate(moment().subtract(fromToday, 'd').format('L'))
-    else setPickedDate(moment().format('L'))
-  }, [fromToday])
-  // const newDate = () => {
-  //   if (fromToday > 0) moment().add(fromToday, 'd').format('L')
-  //   else if (fromToday < 0) moment().subtract(fromToday, 'd').format('L')
-  //   else moment().format('L')
-  // }
+  const [pickedDate, setPickedDate] = useState(moment().format('L'))
 
   const showMeal = meal => {
     setMeal(meal)
   }
 
   const filterFoods = meal => {
-    return props.userFoods.filter(food => food.meal === meal)
+    console.log(pickedDate, props.userFoods[0].consumed_date);
+    
+    return props.userFoods.filter(food => food.meal === meal && pickedDate === moment(food.consumed_date).format('L'))
+  }
+
+  const adjustDate = (fromToday) => {
+    if (fromToday > 0)
+      setPickedDate(
+        moment()
+          .add(fromToday, 'd')
+          .format('L')
+      )
+    else if (fromToday < 0)
+      setPickedDate(
+        moment()
+          .subtract(-1 * fromToday, 'd')
+          .format('L')
+      )
+    else setPickedDate(moment().format('L'))
   }
 
   return (
-    <article>
+    <UserFoodStyle>
       <div className='nutrition-button'>
         <h2>My Nutrition</h2>
-        <Link to={
-          pathname: '/user/addfood',
-          state: {saveDate: setDate}
-      }>
+        <Link to='/user/addfood'>
           <AppButton name='Add Food' />
         </Link>
       </div>
-      <div>
-        <img onClick={() => setFromToday(prevState => prevState - 1)} src="" alt="One day back"/>
-        <h3>{pickedDate}</h3>
-        <img onClick={() => setFromToday(prevState => prevState + 1)} src="" alt="One day forward"/>
-      </div>
+      <DateSelect adjustDate={adjustDate} pickedDate={pickedDate} />
       <div className='graph-cont'>Graph</div>
       <Meals
-        meal='breakfast'
+        meal='Breakfast'
         selectedMeal={selectedMeal}
         mealFoods={filterFoods('Breakfast')}
         showMeal={showMeal}
       />
       <Meals
-        meal='lunch'
+        meal='Lunch'
         selectedMeal={selectedMeal}
         mealFoods={filterFoods('Lunch')}
         showMeal={showMeal}
       />
       <Meals
-        meal='dinner'
+        meal='Dinner'
         selectedMeal={selectedMeal}
         mealFoods={filterFoods('Dinner')}
         showMeal={showMeal}
       />
       <Meals
-        meal='snacks'
+        meal='Snacks'
         selectedMeal={selectedMeal}
         mealFoods={filterFoods('Snacks')}
         showMeal={showMeal}
       />
-    </article>
+    </UserFoodStyle>
   )
 }
 
 export default UserFoods
+
+const UserFoodStyle = styled.article`
+  .nutrition-button {
+    display: flex;
+  }
+  h2 {
+    font-size: 32px;
+    font-family: 'Racing Sans One', cursive;
+    margin: 10px 20px;
+  }
+`

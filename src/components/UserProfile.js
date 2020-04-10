@@ -88,9 +88,7 @@ const UserPage = styled.main`
     margin: 10px 30px;
     font-size: 24px;
   }
-  .nutrition-button {
-    display: flex;
-  }
+  
   h2 {
     font-size: 32px;
     font-family: 'Racing Sans One', cursive;
@@ -99,23 +97,5 @@ const UserPage = styled.main`
   .graph-cont {
     width: 100%;
     height: 100px;
-  }
-  details {
-    margin: 10px 40px;
-  }
-  summary {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 75%;
-    ::-webkit-details-marker {
-      display: none;
-    }
-    h3 {
-      font-size: 24px;
-    }
-    h4 {
-      width: 100px;
-    }
   }
 `
